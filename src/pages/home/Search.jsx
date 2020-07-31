@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Search } from '../pages/home/Search';
 
-class App extends Component {
+export class Search extends Component {
     render() {
         return (
             <div>
-                <Search />
+                <input />
             </div>
         );
     }
 }
-
-export default App;
