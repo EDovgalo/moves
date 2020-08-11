@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Search } from '../pages/home/Search';
+import { HomePage } from '../pages/home/HomePage';
 
 class App extends Component {
     render() {
         return (
-            <div>
-                <Search />
-            </div>
+            //<React.StrictMode>
+                <HomePage />
+            //</React.StrictMode>
         );
     }
 }
