@@ -9,16 +9,22 @@ export class Filters extends Component {
         'genre',
     ];
 
+    filters = [
+        'All',
+        'Documentary',
+        'Comedy',
+        'Horror',
+        'Crime',
+    ];
+
     render() {
         return (
             <div className="filters">
                 <div className="filters-wrapper">
                     <ul className="filters-list">
-                        <li className="filters-list__item">All</li>
-                        <li className="filters-list__item">Documentary</li>
-                        <li className="filters-list__item">Comedy</li>
-                        <li className="filters-list__item">Horror</li>
-                        <li className="filters-list__item">Crime</li>
+                        {this.filters.map(item => <li key={item}
+                                                      className="filters-list__item">{item}</li>)}
+
                     </ul>
                     <div className="filters-sort">
                         <span className="filters-sort__title">Sort by</span>
@@ -29,7 +35,7 @@ export class Filters extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="vertical-line"></div>
+                <div className="vertical-line"/>
             </div>
         );
     }
