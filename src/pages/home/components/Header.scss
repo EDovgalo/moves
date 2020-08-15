@@ -4,12 +4,6 @@
     display: flex;
     justify-content: space-between;
 
-    &__title {
-        color: $red;
-        font-weight: 500;
-        font-size: 18px;
-    }
-
     &__btn--add {
         padding: 15px 15px;
         color: $red;

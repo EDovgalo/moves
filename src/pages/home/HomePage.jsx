@@ -7,10 +7,10 @@ import { MovesList } from './containers/MovesList';
 export class HomePage extends Component {
     render() {
         return (
-            <div className="home_page">
-                <TopSection />
-                <Filters />
-                <MovesList />
+            <div className="home-page">
+                <TopSection/>
+                <Filters/>
+                <MovesList/>
             </div>
         );
     }

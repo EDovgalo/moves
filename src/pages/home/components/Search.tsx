@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import './Search.scss';
 
-export class Search extends Component {
+type SearchProps = {
+    placeholder?: string,
+    title?: string
+}
+
+export class Search extends Component<SearchProps> {
     render() {
         return (
             <div className="search">

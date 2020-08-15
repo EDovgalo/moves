@@ -1,18 +1,55 @@
+@import '../../../styles/variables.scss';
+
 .filters {
+
+  padding: 20px 50px;
+
+  .filters-wrapper {
     display: flex;
     justify-content: space-between;
     text-transform: uppercase;
-    margin: 20px 0;
 
     .filters-list {
-        display: flex;
-        
-        &__item {
-            &:not(:first-child) {
-                margin-left: 10px;
-            }
-            font-weight: 500;
+      display: flex;
+      color: $white;
+
+      &__item {
+
+        &:not(:first-child) {
+          margin-left: 20px;
         }
 
+        font-weight: 500;
+      }
     }
+
+    .filters-sort {
+      &__title {
+        color: $light-gray;
+        margin-right: 30px;
+      }
+
+      &__select {
+        font-size: 16px;
+        color: $white;
+        text-transform: uppercase;
+        background: none;
+        border: none;
+
+        &:focus {
+          background: $gray;
+          border: none;
+        }
+
+      }
+
+    }
+  }
+
+  .vertical-line {
+    height: 2px;
+    background-color: $gray;
+    margin-top: 20px;
+  }
+
 }
