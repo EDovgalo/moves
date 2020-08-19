@@ -1,4 +1,3 @@
-import React from 'react';
 import './AppLabel.scss';
 
 export const AppLabel = () => {

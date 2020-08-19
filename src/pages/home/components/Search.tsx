@@ -1,26 +1,24 @@
-import React, { Component } from 'react';
 import './Search.scss';
 
-type SearchProps = {
+type Props = {
     placeholder?: string,
     title?: string
 }
 
-export class Search extends Component<SearchProps> {
-    render() {
-        return (
-            <div className="search">
-                <div className="wrapper">
-                    <h4 className="search__title">{this.props.title}</h4>
-                    <input
-                        className="search__input"
-                        placeholder={this.props.placeholder}
-                    />
-                    <button className="search__btn--search add-btn">
-                        search
-                    </button>
-                </div>
+export const Search = ({ title, placeholder }: Props) => {
+
+    return (
+        <form className="search">
+            <div className="wrapper">
+                <h4 className="search__title">{title}</h4>
+                <input
+                    className="search__input"
+                    placeholder={placeholder}
+                />
+                <button className="search__btn--search add-btn">
+                    search
+                </button>
             </div>
-        );
-    }
-}
+        </form>
+    );
+};

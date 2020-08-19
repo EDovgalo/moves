@@ -1,7 +1,7 @@
-import { IMove } from '../containers/MovesList';
-import './MoveCard.scss';
+import { IMove } from '../containers/MoviesList';
+import './MovieCard.scss';
 
-export const MoveCard = (props: IMove) => {
+export const MovieCard = (props: IMove) => {
     return <div className="move-card">
         <div className="move-card__img">
             <img src={props.imgSrc} alt="poster"/>

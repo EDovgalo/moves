@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { MoveCard } from '../components/MoveCard';
-import './MovesList.scss';
+import { MovieCard } from '../components/MovieCard';
+import './MoviesList.scss';
 
 import imgOne from '../../../../assets/images/1.jpg';
 import imgTwo from '../../../../assets/images/2.jpg';
@@ -27,16 +27,13 @@ export interface IMove {
     imgSrc: string
 }
 
-interface IState {
+type State = {
     isLoadingMovesList: boolean;
 }
 
-export class MovesList extends Component<any, IState> {
-    constructor(props) {
-        super(props);
-    }
+export class MoviesList extends Component<any, State> {
 
-    state: IState = {
+    state = {
         isLoadingMovesList: true,
     };
 
@@ -105,7 +102,7 @@ export class MovesList extends Component<any, IState> {
     renderMoves() {
         return <div className="moves__list">
             {this.moves.map((item) => (
-                <MoveCard key={item.id} {...item} />
+                <MovieCard key={item.id} {...item} />
             ))}
         </div>;
     }

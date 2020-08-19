@@ -1,4 +1,3 @@
-import React from 'react';
 import { AppLabel } from './AppLabel';
 import './AppFooter.scss';
 

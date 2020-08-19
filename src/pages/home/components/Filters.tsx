@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import './Filters.scss';
 
-export class Filters extends Component {
+type State = {
+    activeFilterId: number
+}
 
-    sortNames: Array<string> = [
+export class Filters extends Component<{}, State> {
+
+    state = {
+        activeFilterId: null,
+    };
+
+    private sortNames: Array<string> = [
         'release date',
         'title',
         'genre',
     ];
 
-    filters = [
+    private filters = [
         'All',
         'Documentary',
         'Comedy',
@@ -22,8 +30,11 @@ export class Filters extends Component {
             <div className="filters">
                 <div className="filters-wrapper">
                     <ul className="filters-list">
-                        {this.filters.map(item => <li key={item}
-                                                      className="filters-list__item">{item}</li>)}
+                        {this.filters.map(item =>
+                            <li key={item} className="filters-list__item">
+                                <label htmlFor={item}>{item}</label>
+                                <input className="filter-list__radio-btn" type="radio" name='filters' value={item} id={item}/>
+                            </li>)}
 
                     </ul>
                     <div className="filters-sort">
