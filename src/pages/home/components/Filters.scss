@@ -1,0 +1,60 @@
+@import '../../../styles/variables.scss';
+
+.filters {
+
+  padding: 20px 50px;
+
+  .filters-wrapper {
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+
+    .filters-list {
+      display: flex;
+      color: $white;
+
+      &__item {
+
+        &:not(:first-child) {
+          margin-left: 20px;
+        }
+
+        font-weight: 500;
+      }
+
+      &__radio-btn {
+        display: none;
+      }
+
+    }
+
+    .filters-sort {
+      &__title {
+        color: $light-gray;
+        margin-right: 30px;
+      }
+
+      &__select {
+        font-size: 16px;
+        color: $white;
+        text-transform: uppercase;
+        background: none;
+        border: none;
+
+        &:focus {
+          background: $gray;
+          border: none;
+        }
+
+      }
+
+    }
+  }
+
+  .vertical-line {
+    height: 2px;
+    background-color: $gray;
+    margin-top: 20px;
+  }
+
+}

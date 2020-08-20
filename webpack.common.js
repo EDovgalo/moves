@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -8,16 +9,19 @@ module.exports = {
         filename: 'index_bundle.js',
     },
 
+    resolve: {
+        modules: [path.resolve(__dirname, './src'), 'node_modules'],
+        extensions: ['.js', '.jsx', '.json', '.tsx'],
+    },
+
     plugins: [
         new HtmlWebpackPlugin({
             template: __dirname + '/src/index.html',
         }),
+        new webpack.ProvidePlugin({
+            React: 'react',
+        }),
     ],
-
-    resolve: {
-        modules: [path.resolve(__dirname, './src'), 'node_modules'],
-        extensions: ['.js', '.jsx', '.json'],
-    },
 
     module: {
         rules: [
@@ -27,6 +31,11 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                 },
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: '/node_modules/',
             },
             {
                 test: /\.scss$/,

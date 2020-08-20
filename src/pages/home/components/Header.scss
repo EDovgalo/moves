@@ -1,0 +1,12 @@
+@import '../../../styles/variables.scss';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+
+    &__btn--add {
+        padding: 15px 15px;
+        color: $red;
+        background-color: #424242d2;
+    }
+}
