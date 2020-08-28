@@ -1,53 +1,39 @@
-import React, { Component } from 'react';
 import './Filters.scss';
+import { SortList } from '../HomePage';
 
-type State = {
-    activeFilterId: number
+type Props = {
+    filters: Array<string>,
+    sortList: Array<SortList>,
+    activeFilter: string,
+    handlerFilterClick: any,
+    handlerChangeSortValue
 }
 
-export class Filters extends Component<{}, State> {
+export const Filters = ({ filters, sortList, activeFilter, handlerFilterClick, handlerChangeSortValue }: Props) => {
 
-    state = {
-        activeFilterId: null,
-    };
+    return (
+        <div className="filters">
+            <div className="filters-wrapper">
+                <ul className="filter-list">
+                    {filters.map(item =>
+                        <li key={item}
+                            className={`filter-list__item ${item === activeFilter ? 'active-filter' : ''}`}>
+                            <label className="filter-list__title" htmlFor={item}>{item}</label>
+                            <input className="filter-list__radio-btn" type="radio"
+                                   name='filter' value={item} id={item} onChange={handlerFilterClick}/>
+                        </li>)}
 
-    private sortNames: Array<string> = [
-        'release date',
-        'title',
-        'genre',
-    ];
-
-    private filters = [
-        'All',
-        'Documentary',
-        'Comedy',
-        'Horror',
-        'Crime',
-    ];
-
-    render() {
-        return (
-            <div className="filters">
-                <div className="filters-wrapper">
-                    <ul className="filters-list">
-                        {this.filters.map(item =>
-                            <li key={item} className="filters-list__item">
-                                <label htmlFor={item}>{item}</label>
-                                <input className="filter-list__radio-btn" type="radio" name='filters' value={item} id={item}/>
-                            </li>)}
-
-                    </ul>
-                    <div className="filters-sort">
-                        <span className="filters-sort__title">Sort by</span>
-                        <select className="filters-sort__select">
-                            {this.sortNames.map(item => <option key={item}
-                                                                value={item}>{item}
-                            </option>)}
-                        </select>
-                    </div>
+                </ul>
+                <div className="filters-sort">
+                    <span className="filters-sort__title">Sort by</span>
+                    <select className="filters-sort__select" onChange={handlerChangeSortValue}>
+                        {sortList.map(item => <option key={item.value}
+                                                      value={item.value}>{item.caption}
+                        </option>)}
+                    </select>
                 </div>
-                <div className="vertical-line"/>
             </div>
-        );
-    }
-}
+            <div className="vertical-line"/>
+        </div>
+    );
+};
