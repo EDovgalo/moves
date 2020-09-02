@@ -1,8 +1,8 @@
 import { AppLabel } from './AppLabel';
 import './AppFooter.scss';
 
-export const AppFooter = () => {
-    return <div className="app-footer">
-        <AppLabel/>
-    </div>;
-};
+export const AppFooter = (): JSX.Element => (
+  <div className="app-footer">
+    <AppLabel />
+  </div>
+);

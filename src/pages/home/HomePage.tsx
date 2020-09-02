@@ -2,218 +2,214 @@ import React, { Component } from 'react';
 import { TopSection } from './components/TopSection';
 import { MoviesList } from './containers/MoviesList';
 import { Filters } from './components/Filters';
+import { LoadSpinner } from '../../components/LoadSpinner';
+import { DeleteMovieModal } from '../../components/modal/deleteMovieModal/DeleteMovieModal';
+import { MovieModal } from '../../components/modal/movieModal/MovieModal';
+import { comparator } from '../../helpers/utils';
+import './HomePage.scss';
+
 import imgOne from '../../../assets/images/1.jpg';
 import imgTwo from '../../../assets/images/2.jpg';
 import imgThree from '../../../assets/images/3.jpg';
 import imgFour from '../../../assets/images/4.jpg';
 import imgFive from '../../../assets/images/5.jpg';
 import imgSix from '../../../assets/images/6.jpg';
-import './HomePage.scss';
-import { LoadSpinner } from '../../components/LoadSpinner';
-import { DeleteMovieModal } from '../../components/modal/deleteMovieModal/DeleteMovieModal';
-import { MovieModal } from '../../components/modal/movieModal/MovieModal';
 
-
+// eslint-disable-next-line no-shadow
 export enum GenreTypes {
-    Action = 'Action',
-    Drama = 'Drama',
-    OscarWinning = 'Oscar winning',
-    Adventure = 'Adventure',
-    Music = 'Music'
+  Action = 'Action',
+  Drama = 'Drama',
+  OscarWinning = 'Oscar winning',
+  Adventure = 'Adventure',
+  Music = 'Music',
+  Default = ''
 }
 
-export interface IMovie {
-    id: number;
-    title: string;
-    genre: Array<GenreTypes>
-    releaseDate: string,
-    imgSrc: string
+export class Movie {
+  constructor(
+    public id: number = new Date().valueOf(),
+    public title: string = '',
+    public genre: Array<GenreTypes> = [GenreTypes.Default],
+    public releaseDate: string = '',
+    public imgSrc: string = '',
+  ) {
+
+  }
 }
 
-const movies: Array<IMovie> = [
-    {
-        id: 1,
-        title: 'Pulp Function',
-        genre: [GenreTypes.Action],
-        releaseDate: '2004',
-        imgSrc: imgOne,
-    },
-    {
-        id: 2,
-        title: 'Bohenian Rhapsody',
-        genre: [GenreTypes.Music, GenreTypes.Drama],
-        releaseDate: '2003',
-        imgSrc: imgTwo,
-    },
-    {
-        id: 3,
-        title: 'Kill Bill',
-        genre: [GenreTypes.Music, GenreTypes.OscarWinning],
-        releaseDate: '1994',
-        imgSrc: imgThree,
-    },
-    {
-        id: 4,
-        title: 'Avengers',
-        genre: [GenreTypes.Action, GenreTypes.Adventure],
-        releaseDate: '2004',
-        imgSrc: imgFour,
-    },
-    {
-        id: 5,
-        title: 'Inception',
-        genre: [GenreTypes.Action, GenreTypes.Adventure],
-        releaseDate: '2003',
-        imgSrc: imgFive,
-    },
-    {
-        id: 6,
-        title: 'Reservoir dogs',
-        genre: [GenreTypes.OscarWinning],
-        releaseDate: '2003',
-        imgSrc: imgSix,
-    },
+const moviesArray: Array<Movie> = [
+  {
+    id: 1,
+    title: 'Pulp Function',
+    genre: [GenreTypes.Action],
+    releaseDate: '2004',
+    imgSrc: imgOne,
+  },
+  {
+    id: 2,
+    title: 'Bohenian Rhapsody',
+    genre: [GenreTypes.Music, GenreTypes.Drama],
+    releaseDate: '2003',
+    imgSrc: imgTwo,
+  },
+  {
+    id: 3,
+    title: 'Kill Bill',
+    genre: [GenreTypes.Music, GenreTypes.OscarWinning],
+    releaseDate: '1994',
+    imgSrc: imgThree,
+  },
+  {
+    id: 4,
+    title: 'Avengers',
+    genre: [GenreTypes.Action, GenreTypes.Adventure],
+    releaseDate: '2004',
+    imgSrc: imgFour,
+  },
+  {
+    id: 5,
+    title: 'Inception',
+    genre: [GenreTypes.Action, GenreTypes.Adventure],
+    releaseDate: '2003',
+    imgSrc: imgFive,
+  },
+  {
+    id: 6,
+    title: 'Reservoir dogs',
+    genre: [GenreTypes.OscarWinning],
+    releaseDate: '2003',
+    imgSrc: imgSix,
+  },
 ];
 
 export type SortList = {
-    caption: string,
-    value: string
+  caption: string,
+  value: string
 };
 
 type State = {
-    movies: Array<IMovie>,
-    activeFilter: string,
-    sortBy: string,
-    isShowDeleteModal: boolean,
-    isShowMovieModal: boolean,
-    deleteCardId: number,
-    editCardMovie: IMovie,
-    isLoadingMovesList: boolean
+  movies: Array<Movie>,
+  activeFilter: string,
+  isShowDeleteModal: boolean,
+  isShowMovieModal: boolean,
+  deleteCardId: number,
+  currentMovie: Movie,
+  isLoadingMovesList: boolean
 }
 
-export class HomePage extends Component<{}, State> {
+export class HomePage extends Component<unknown, State> {
+  private filters = [
+    'All',
+    'Documentary',
+    'Comedy',
+    'Horror',
+    'Crime',
+  ];
 
+  private sortList: Array<SortList> = [
+    { caption: 'release date', value: 'releaseDate' },
+    { caption: 'title', value: 'title' },
+    { caption: 'genre', value: 'genre' },
+  ];
 
-    private filters = [
-        'All',
-        'Documentary',
-        'Comedy',
-        'Horror',
-        'Crime',
-    ];
+  state = {
+    movies: moviesArray,
+    activeFilter: this.filters[0],
+    isShowDeleteModal: false,
+    isShowMovieModal: false,
+    deleteCardId: null,
+    currentMovie: null,
+    isLoadingMovesList: true,
+  };
 
-    private sortList: Array<SortList> = [
-        { caption: 'release date', value: 'releaseDate' },
-        { caption: 'title', value: 'title' },
-        { caption: 'genre', value: 'genre' },
-    ];
+  componentDidMount(): void {
+    this.loadMoves();
+  }
 
-    state = {
-        movies: movies,
-        activeFilter: this.filters[0],
-        sortBy: null,
-        isShowDeleteModal: false,
-        isShowMovieModal: false,
-        deleteCardId: null,
-        editCardMovie: null,
-        isLoadingMovesList: true
-    };
+  setActiveFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = e.target;
+    this.setState({ activeFilter: value });
+  };
 
-    componentDidMount() {
-        this.loadMoves()
-    }
+  changeSortValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = e.target;
+    this.setState(state => ({ movies: state.movies.sort(comparator(value)) }));
+  };
 
-    setActiveFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
-        this.setState({ activeFilter: value });
-    };
+  openDeleteModal = (cardId: number): void => {
+    this.setState({ isShowDeleteModal: true, deleteCardId: cardId });
+  };
 
-    changeSortValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = e.target;
-        this.setState({
-            sortBy: value,
-        }, () => {
-            this.sortMovieList();
-        });
-    };
+  closeDeleteModal = (): void => {
+    this.setState({ isShowDeleteModal: false, deleteCardId: null });
+  };
 
-    openDeleteModal = cardId => {
-        this.setState({ isShowDeleteModal: true, deleteCardId: cardId });
-    };
+  editMovie = (currentMovie: Movie): void => {
+    this.setState({ isShowMovieModal: true, currentMovie });
+  };
 
-    closeDeleteModal = () => {
-        this.setState({ isShowDeleteModal: false, deleteCardId: null });
-    };
+  addMovie = (): void => {
+    this.setState({ isShowMovieModal: true, currentMovie: new Movie() });
+  };
 
-    openMovieModal = editCardMovie => {
-        this.setState({ isShowMovieModal: true, editCardMovie });
-    };
+  closeMovieModal = (): void => {
+    this.setState({ isShowMovieModal: false, currentMovie: null });
+  };
 
-    closeMovieModal = () => {
-        this.setState({ isShowMovieModal: false, editCardMovie: null });
-    };
+  deleteCard = (): void => {
+    const { movies, deleteCardId } = this.state;
+    const newMovies = movies.filter(item => item.id !== deleteCardId);
+    this.setState({ movies: newMovies, isShowDeleteModal: false, deleteCardId: null });
+  };
 
-    deleteCard = () => {
-        const { movies, deleteCardId } = this.state;
-        const newMovies = movies.filter(item => item.id !== deleteCardId);
-        this.setState({ movies: newMovies, isShowDeleteModal: false, deleteCardId: null });
-    };
+  private loadMoves() {
+    setTimeout(() => {
+      this.setState({ isLoadingMovesList: false });
+    }, 1000);
+  }
 
-    render() {
-        const {
-            movies,
-            activeFilter,
-            isShowDeleteModal,
-            isShowMovieModal,
-            editCardMovie,
-            isLoadingMovesList
-        } = this.state;
-        return (
-            <>
-                <DeleteMovieModal handlerClose={this.closeDeleteModal}
-                                  handleConfirm={this.deleteCard}
-                                  isShow={isShowDeleteModal}/>
+  render():JSX.Element {
+    const {
+      movies,
+      activeFilter,
+      isShowDeleteModal,
+      isShowMovieModal,
+      currentMovie,
+      isLoadingMovesList,
+    } = this.state;
+    return (
+      <>
+        <DeleteMovieModal
+          handlerClose={this.closeDeleteModal}
+          handleConfirm={this.deleteCard}
+          isShow={isShowDeleteModal}
+          />
 
-                <MovieModal handlerClose={this.closeMovieModal}
-                            handlerSubmit={null}
-                            data={editCardMovie}
-                            isShow={isShowMovieModal}/>
+        <MovieModal
+          handlerClose={this.closeMovieModal}
+          handlerSubmit={null}
+          data={currentMovie}
+          isShow={isShowMovieModal}
+          />
 
-                <div className="home-page">
-                    <TopSection handlerOpenMovieModal={this.openMovieModal}/>
-                    <Filters filters={this.filters} sortList={this.sortList} activeFilter={activeFilter}
-                             handlerFilterClick={this.setActiveFilter} handlerChangeSortValue={this.changeSortValue}/>
-                    <LoadSpinner isLoading={isLoadingMovesList}>
-                        <MoviesList moves={movies}
-                                    handlerOpenMovieModal={this.openMovieModal}
-                                    handlerOpenDeleteModal={this.openDeleteModal}/>
-                    </LoadSpinner>
-                </div>
-            </>
-        );
-    }
-
-    private sortMovieList() {
-        const { movies } = this.state;
-        movies.sort(this.comparator);
-        this.setState({ movies: [...movies] });
-    }
-
-    private comparator = (a, b) => {
-        const { sortBy } = this.state;
-        if (a[sortBy] > b[sortBy]) {
-            return 1;
-        }
-        if (a[sortBy] < b[sortBy]) {
-            return -1;
-        }
-        return 0;
-    };
-
-    private loadMoves() {
-        setTimeout(() => {
-            this.setState({ isLoadingMovesList: false });
-        }, 1000);
-    }
-
+        <div className="home-page">
+          <TopSection handlerOpenMovieModal={this.addMovie} />
+          <Filters
+            filters={this.filters}
+            sortList={this.sortList}
+            activeFilter={activeFilter}
+            handlerFilterClick={this.setActiveFilter}
+            handlerChangeSortValue={this.changeSortValue}
+            />
+          <LoadSpinner isLoading={isLoadingMovesList}>
+            <MoviesList
+              moves={movies}
+              handlerOpenMovieModal={this.editMovie}
+              handlerOpenDeleteModal={this.openDeleteModal}
+              />
+          </LoadSpinner>
+        </div>
+      </>
+    );
+  }
 }
