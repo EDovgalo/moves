@@ -10,7 +10,7 @@ export const useToggle = (initValue = false): [boolean, () => void] => {
   return [flag, toggle];
 };
 
-export const useTimer = (callback: any, time = 0): boolean[] => {
+export const useTimer = (time = 0, callback: any): boolean[] => {
   const [timerDone, setTimerDone] = useState(false);
 
   useEffect(() => {

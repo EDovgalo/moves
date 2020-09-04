@@ -40,7 +40,7 @@ export const MovieSection = (): JSX.Element => {
   const [isShowMovieModal, setIsShowMovieModal] = useState(false);
   const [deleteCardId, setDeleteCardId] = useState(null);
   const [currentMovie, setCurrentMovie] = useState(null);
-  const [loadDone] = useTimer(loadLogger, 3000);
+  const [loadDone] = useTimer(3000, loadLogger);
 
   const updateActiveFilter = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
