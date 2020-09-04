@@ -1,15 +1,15 @@
 import './LoadSpinner.scss';
 
 type Props = {
-    children: any
-    isLoading: boolean
+  children: JSX.Element
+  isLoading: boolean
 }
 
-export const LoadSpinner = ({ children, isLoading }: Props) => {
-
-    const loadSpinner = <div className="load-container">
-        <div className="lds-dual-ring"></div>
-    </div>;
-
-    return isLoading ? loadSpinner : children;
+export const LoadSpinner = ({ children, isLoading }: Props): JSX.Element => {
+  const loadSpinner = (
+    <div className="load-container">
+      <div className="lds-dual-ring" />
+    </div>
+  );
+  return isLoading ? loadSpinner : children;
 };

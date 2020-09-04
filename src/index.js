@@ -1,11 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./app/App.jsx";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './app/App';
 
-import "./index.scss";
+import './index.scss';
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 
-if (process.env.NODE_ENV === "PROD") {
-  console.log("APP VERSION " + process.env.APP_VERSION);
+if (process.env.NODE_ENV === 'PROD') {
+  console.log(`APP VERSION ${process.env.APP_VERSION}`);
 }

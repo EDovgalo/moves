@@ -1,0 +1,49 @@
+@import "src/styles/variables";
+
+.dropdown-menu {
+  &__default-caption {
+    background-color: $dark-gray;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    line-height: 29px;
+    border-radius: 50%;
+    font-size: 32px;
+    font-weight: bolder;
+    color: $white;
+  }
+
+  &__toggle-btn {
+    cursor: pointer;
+    outline: none;
+  }
+
+  .list-items {
+    background-color: $dark-gray;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 180px;
+    border-radius: 3px;
+
+    &__title {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px;
+      color: $white;
+      font-size: 13px;
+    }
+
+    &__item {
+      padding: 10px 10px 10px 20px;
+      color: $white;
+      &:not(&__title):hover {
+        background-color: $red;
+      }
+    }
+
+  }
+
+
+}
