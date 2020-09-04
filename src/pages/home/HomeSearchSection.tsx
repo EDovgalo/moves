@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { MovieSection } from '../../components/movieSection/MovieSection';
 import { TopSection } from '../../containers/TopSection';
 import { AppLabel } from '../../components/AppLabel';
 import { Search } from '../../components/movieSection/components/Search';
-import { AppFooter } from '../../components/AppFooter';
 import { MovieModal } from '../../components/modal/movieModal/MovieModal';
 import { Movie } from '../../models/movie/movie.model';
-import './HomePage.scss';
+import './HomeSearchSection.scss';
 
-export const HomePage = (): JSX.Element => {
+export const HomeSearchSection = (): JSX.Element => {
   const [isShowMovieModal, setIsShowMovieModal] = useState(false);
 
   const toggleMovieModal = () => {
@@ -32,8 +30,6 @@ export const HomePage = (): JSX.Element => {
         </div>
         <Search title="find your movie" placeholder="What do you want to watch?" />
       </TopSection>
-      <MovieSection />
-      <AppFooter />
     </div>
   );
 };

@@ -1,11 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
-import { HomePage } from '../pages/home/HomePage';
 import { AppErrorBoundary } from './AppErrorBoundary';
-import { DetailsPage } from '../pages/details/DetailsPage';
-
-const HOME = '/home';
-const DETAILS = '/details/:id';
+import { MainPage } from '../pages/main/MainPage';
+import { HOME } from './Config';
 
 const App = (): JSX.Element => (
   <React.StrictMode>
@@ -14,12 +11,7 @@ const App = (): JSX.Element => (
         <Redirect to={HOME} />
       </Route>
       <AppErrorBoundary>
-        <Route path={HOME}>
-          <HomePage />
-        </Route>
-        <Route path={DETAILS}>
-          <DetailsPage />
-        </Route>
+        <MainPage />
       </AppErrorBoundary>
     </Router>
   </React.StrictMode>

@@ -35,7 +35,7 @@ const loadLogger = () => {
 
 export const MovieSection = (): JSX.Element => {
   const [movies, setMovies] = useState(moviesArray);
-  const [activeFilter, setActiveFilter] = useState(null);
+  const [activeFilter, setActiveFilter] = useState(filters[0]);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowMovieModal, setIsShowMovieModal] = useState(false);
   const [deleteCardId, setDeleteCardId] = useState(null);

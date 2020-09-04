@@ -1,14 +1,12 @@
 import { useParams, useHistory } from 'react-router';
 import { useEffect, useState } from 'react';
 import { TopSection } from '../../containers/TopSection';
-import { MovieSection } from '../../components/movieSection/MovieSection';
-import { AppFooter } from '../../components/AppFooter';
 import { DetailsPageTopSection } from './components/DetailsPageTopSection';
 import { getMovieById } from '../../data/movies';
 import { AppLabel } from '../../components/AppLabel';
-import './DetailsPage.scss';
+import './MovieDetails.scss';
 
-export const DetailsPage = (): JSX.Element => {
+export const MovieDetails = (): JSX.Element => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const history = useHistory();
@@ -33,8 +31,6 @@ export const DetailsPage = (): JSX.Element => {
         </div>
         {movie ? <DetailsPageTopSection movie={movie} /> : null}
       </TopSection>
-      <MovieSection />
-      <AppFooter />
     </div>
   );
 };
