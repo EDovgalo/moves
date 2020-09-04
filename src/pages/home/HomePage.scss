@@ -1,6 +1,8 @@
-@import '../../styles/variables.scss';
+@import '../../styles/variables';
 
 .home-page {
-    background-color: $dark-gray;
-    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: $dark-gray;
+  flex-grow: 1;
 }

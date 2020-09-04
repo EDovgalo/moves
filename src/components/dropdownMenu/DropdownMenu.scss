@@ -33,6 +33,7 @@
       padding: 10px;
       color: $white;
       font-size: 13px;
+      cursor: default;
     }
 
     &__item {
@@ -41,6 +42,10 @@
       &:not(&__title):hover {
         background-color: $red;
       }
+    }
+
+    &__close {
+      cursor: pointer;
     }
 
   }
