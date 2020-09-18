@@ -1,18 +1,13 @@
 import {
-  ADD_MOVIE,
   ADD_MOVIE_SUCCESS,
-  DELETE_MOVIE,
   DELETE_MOVIE_SUCCESS,
-  EDIT_MOVIE,
   EDIT_MOVIE_SUCCESS,
-  FILTER_BY_GENRES,
   FILTER_BY_GENRES_SUCCESS,
-  GET_MOVIES,
   GET_MOVIES_SUCCESS,
   IMoviesState,
   MovieActionTypes,
   MOVIES_ERROR,
-  SORT_BY,
+  SHOW_SPINNER,
   SORT_BY_SUCCESS,
 } from './types';
 
@@ -25,7 +20,7 @@ const initialState: IMoviesState = {
 
 export const movieReducer = (state = initialState, action: MovieActionTypes): IMoviesState => {
   switch (action.type) {
-    case GET_MOVIES || EDIT_MOVIE || DELETE_MOVIE || FILTER_BY_GENRES || SORT_BY || ADD_MOVIE:
+    case SHOW_SPINNER:
       return { ...state, isLoading: true };
     case GET_MOVIES_SUCCESS:
       return { ...state, isLoaded: true, isLoading: false, movies: action.payload };
@@ -45,7 +40,7 @@ export const movieReducer = (state = initialState, action: MovieActionTypes): IM
     case ADD_MOVIE_SUCCESS: {
       const { movies } = state;
       movies.push(action.payload);
-      return { ...state, movies: [...movies] };
+      return { ...state, isLoading: false, movies: [...movies] };
     }
     case MOVIES_ERROR:
       return { ...state, isLoading: false, error: action.payload };
