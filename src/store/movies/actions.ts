@@ -91,7 +91,7 @@ export const deleteMovie = (id: number) => dispatch => {
     .catch((error: Error) => dispatch(setErrorAction(error)));
 };
 
-export const editMovie = (movie: Movie) => dispatch: Dispatch  => {
+export const editMovie = (movie: Movie) => dispatch  => {
   dispatch(editMovieAction());
   fetch(`${URL}`, {
     method: 'put',
