@@ -10,51 +10,54 @@ type Props = {
   onSubmit?: (movie?: Movie) => void
 }
 
-export const withModals = WrappedComponent => {
+export const withModals = WrappedComponent => ({ onDelete, onSubmit, ...props }: Props) => {
   const [isShowDeleteModal, toggleShowDeleteModal] = useToggle(false);
   const [isShowEditModal, toggleShowEditModal] = useToggle(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
-  return ({ onDelete, onSubmit, ...props }: Props) => {
-    const handlerDelete = useCallback(() => {
-      onDelete(selectedMovie.id);
-      toggleShowDeleteModal();
-    }, [WrappedComponent]);
+  const handlerDelete = useCallback(() => {
+    onDelete(selectedMovie.id);
+    toggleShowDeleteModal();
+  }, [selectedMovie]);
 
-    const handlerSubmit = useCallback((newMovie: Movie) => {
-      onSubmit(newMovie);
-      toggleShowEditModal();
-    }, [WrappedComponent]);
+  const closeEditModal = useCallback(() => {
+    toggleShowEditModal();
+    setSelectedMovie(null);
+  }, [isShowEditModal]);
 
-    const handlerOpenEditModal = useCallback((movie: Movie) => {
-      setSelectedMovie(movie);
-      toggleShowEditModal();
-    }, [WrappedComponent]);
+  const handlerSubmit = useCallback((newMovie: Movie) => {
+    onSubmit(newMovie);
+    closeEditModal();
+  }, [onSubmit]);
 
-    const handlerDeleteModal = useCallback((movie: Movie) => {
-      setSelectedMovie(movie);
-      toggleShowDeleteModal();
-    }, [WrappedComponent]);
-
-    return (
-      <>
-        <DeleteMovieModal
-          onClose={toggleShowDeleteModal}
-          onConfirm={handlerDelete}
-          isShow={isShowDeleteModal}
-          />
-        <MovieModal
-          onClose={toggleShowEditModal}
-          onSubmit={handlerSubmit}
-          data={selectedMovie}
-          isShow={isShowEditModal}
-          />
-        <WrappedComponent
-          onOpenDeleteModal={handlerDeleteModal}
-          onOpenEditModal={handlerOpenEditModal}
-          {...props}
-          />
-      </>
-    );
+  const handlerOpenEditModal = (movie: Movie) => {
+    setSelectedMovie(movie);
+    toggleShowEditModal();
   };
+
+  const handlerDeleteModal = (movie: Movie) => {
+    setSelectedMovie(movie);
+    toggleShowDeleteModal();
+  };
+
+  return (
+    <>
+      <DeleteMovieModal
+        onClose={toggleShowDeleteModal}
+        onConfirm={handlerDelete}
+        isShow={isShowDeleteModal}
+        />
+      <MovieModal
+        onClose={closeEditModal}
+        onSubmit={handlerSubmit}
+        data={selectedMovie}
+        isShow={isShowEditModal}
+        />
+      <WrappedComponent
+        onOpenDeleteModal={handlerDeleteModal}
+        onOpenEditModal={handlerOpenEditModal}
+        {...props}
+        />
+    </>
+  );
 };

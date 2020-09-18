@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { MovieModalItem } from './MovieModalItem';
 import { ModalContainer } from '../ModalContainer';
 import { Movie } from '../../../../models/movie.model';
@@ -27,6 +27,9 @@ export const MovieModal = ({
   modalTitle = 'add movie',
 }: Props):JSX.Element => {
   const [movieData, setMovieData] = useState(data);
+  useEffect(() => {
+    setMovieData(data);
+  }, [data]);
 
   const handlerChangeData = (e: ChangeEvent<HTMLInputElement>) => {
     const change = { ...movieData };
