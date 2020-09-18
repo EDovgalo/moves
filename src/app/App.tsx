@@ -1,16 +1,19 @@
 import React from 'react';
-import { HomePage } from '../pages/home/HomePage';
-import { AppFooter } from '../components/AppFooter';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import { AppErrorBoundary } from './AppErrorBoundary';
+import { MainPage } from '../pages/main/MainPage';
+import { HOME } from './Config';
 
-const App = () => (
+const App = (): JSX.Element => (
   <React.StrictMode>
-    <>
+    <Router>
+      <Route exact path="/">
+        <Redirect to={HOME} />
+      </Route>
       <AppErrorBoundary>
-        <HomePage />
-        <AppFooter />
+        <MainPage />
       </AppErrorBoundary>
-    </>
+    </Router>
   </React.StrictMode>
 );
 export default App;

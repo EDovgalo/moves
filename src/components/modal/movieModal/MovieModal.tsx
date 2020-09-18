@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { MovieModalItem } from './MovieModalItem';
 import { ModalContainer } from '../ModalContainer';
-import { Movie } from '../../../pages/home/HomePage';
+import { Movie } from '../../../models/movie/movie.model';
 import './MovieModal.scss';
 
 type Props = {

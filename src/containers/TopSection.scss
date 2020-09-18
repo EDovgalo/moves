@@ -1,11 +1,11 @@
-@import '../../../styles/variables.scss';
+@import '../styles/variables';
 
 
 .top-section {
   position: relative;
   padding: 20px 50px;
   height: 44vh;
-  background: linear-gradient(to right, rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)), url('../../../../assets/all-films.jpg');
+  background: linear-gradient(to right, rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)), url('../../assets/all-films.jpg');
 
   .header {
     display: flex;

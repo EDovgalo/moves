@@ -1,5 +1,5 @@
 import React from 'react';
-import { SortList } from '../HomePage';
+import { SortList } from '../MovieSection';
 import './Filters.scss';
 
 type Props = {

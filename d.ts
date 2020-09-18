@@ -1,2 +1,2 @@
-declare var React: any;
+declare let React: any;
 declare module '*.jpg';

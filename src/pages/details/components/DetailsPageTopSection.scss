@@ -1,0 +1,61 @@
+@import "src/styles/variables";
+
+.details-page {
+  .top-section {
+    min-height: 54vh;
+    max-height: 66vh;
+    height: 64vh;
+    background: linear-gradient(to right, rgba(0, 0, 0, .6), rgba(0, 0, 0, .9)), url('../../../../assets/all-films.jpg');
+  }
+  .details-page-top-section {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    .row {
+      display: flex;
+      align-self: center;
+    }
+
+    .release-duration {
+      margin-top: 10px;
+      font-size: 26px;
+      color: $red;
+    }
+
+    .top-section {
+      &__img {
+        width: 30%;
+        height: 100%;
+
+        img {
+          height: 80%;
+          width: auto;
+        }
+      }
+
+      &__body {
+        padding: 30px;
+        color: $white;
+      }
+
+      &__title {
+        font-size: 42px;
+        font-weight: 100;
+      }
+
+      &__genres {
+        font-size: 18px;
+        font-weight: 100;
+      }
+
+      &__duration {
+        margin-left: 20px;
+      }
+
+      &__description {
+        margin-top: 20px;
+      }
+    }
+  }
+}

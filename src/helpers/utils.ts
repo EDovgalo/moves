@@ -8,3 +8,6 @@ export const comparator = (sortBy: string):
   }
   return 0;
 };
+
+export const join = (arr: Array<any>):
+  any => (arr ? arr.map((item, index) => (index ? `, ${item}` : item)) : arr);
