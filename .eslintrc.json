@@ -19,6 +19,8 @@
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "linebreak-style": ["error", "unix"],
+    "react/jsx-props-no-spreading": ["off"],
+    "camelcase": [0, {"properties": "never"}],
     "arrow-parens": ["error", "as-needed"],
     "semi": "error",
     "object-curly-newline": "off",

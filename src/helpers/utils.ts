@@ -11,3 +11,5 @@ export const comparator = (sortBy: string):
 
 export const join = (arr: Array<any>):
   any => (arr ? arr.map((item, index) => (index ? `, ${item}` : item)) : arr);
+
+export const findById = (arr: any[], id: number): any => arr.find(item => +item.id === +id);
