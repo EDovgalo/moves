@@ -9,6 +9,7 @@ import {
   SHOW_SPINNER,
 } from './types';
 import { Movie } from '../../models/movie.model';
+import toaster from '../../components/toaster';
 
 const URL = 'http://localhost:4000/movies';
 
@@ -51,10 +52,19 @@ const setErrorAction = (error: Error): MovieActionTypes => ({
   payload: error,
 });
 
+async function status(res) {
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.messages);
+  }
+  const result = await res.json();
+  return result;
+}
+
 export const fetchMovies = () => dispatch => {
   dispatch(showSpinnerAction());
   fetch(URL)
-    .then((resp: Response) => resp.json())
+    .then((resp: Response) => status(resp))
     .then(result => dispatch(getMoviesSuccessAction(result.data)))
     .catch((error: Error) => dispatch(setErrorAction(error)));
 };
@@ -63,8 +73,12 @@ export const deleteMovie = (id: number) => dispatch => {
   dispatch(showSpinnerAction());
   fetch(`${URL}/${id}`, {
     method: 'delete',
-  }).then(() => dispatch(deleteMovieSuccessAction(id)))
-    .catch((error: Error) => dispatch(setErrorAction(error)));
+  }).then((resp: Response) => status(resp))
+    .then(() => {
+      toaster.success('movie was successfully deleted');
+      dispatch(deleteMovieSuccessAction(id));
+    })
+    .catch((error: Error) => toaster.error(error));
 };
 
 export const editMovie = (movie: Movie) => dispatch => {
@@ -77,9 +91,12 @@ export const editMovie = (movie: Movie) => dispatch => {
       id: +movie.id,
     }),
   })
-    .then((resp: Response) => resp.json())
-    .then(result => dispatch(editMovieSuccessAction(result)))
-    .catch((error: Error) => dispatch(setErrorAction(error)));
+    .then((resp: Response) => status(resp))
+    .then(result => {
+      toaster.success('movie was successfully updated');
+      dispatch(editMovieSuccessAction(result));
+    })
+    .catch((error: Error) => toaster.error(error));
 };
 
 export const filterByGenres = (genres: string[]) => dispatch => {
@@ -108,7 +125,11 @@ export const addMovie = (movie: Movie) => dispatch => {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newMovie),
-  }).then((resp: Response) => resp.json())
-    .then(result => dispatch(AddMovieSuccessAction(result)))
-    .catch((error: Error) => dispatch(setErrorAction(error)));
+  })
+    .then((resp: Response) => status(resp))
+    .then(result => {
+      toaster.success('movie was successfully added');
+      dispatch(AddMovieSuccessAction(result));
+    })
+    .catch((error: Error) => toaster.error(error));
 };

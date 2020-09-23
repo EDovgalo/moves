@@ -1,0 +1,29 @@
+@import "src/styles/variables";
+
+.toaster-container {
+  position: fixed;
+  bottom: 25px;
+  width: 90%;
+  left: 5%  ;
+
+  .toaster-message {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 10px 20px;
+    color: $white;
+    border-radius: 5px;
+    .icon-close {
+      font-size: 28px;
+      line-height: .7;
+    }
+  }
+
+  .toaster-message.success {
+    background-color: $green;
+  }
+  .toaster-message.error {
+    background-color: $error;
+  }
+
+}
