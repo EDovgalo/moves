@@ -8,7 +8,7 @@ type Props = {
 
 export const HomeSearchSection = ({ onOpenEditModal }:Props): JSX.Element => {
   const handlerOpenEditModal = () => {
-    onOpenEditModal({} as Movie);
+    onOpenEditModal(null);
   };
 
   return (

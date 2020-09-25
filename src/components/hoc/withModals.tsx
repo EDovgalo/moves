@@ -42,17 +42,22 @@ export const withModals = WrappedComponent => ({ onDelete, onSubmit, ...props }:
 
   return (
     <>
-      <DeleteMovieModal
-        onClose={toggleShowDeleteModal}
-        onConfirm={handlerDelete}
-        isShow={isShowDeleteModal}
-        />
-      <MovieModal
-        onClose={closeEditModal}
-        onSubmit={handlerSubmit}
-        data={selectedMovie}
-        isShow={isShowEditModal}
-        />
+      {isShowDeleteModal ? (
+        <DeleteMovieModal
+          onClose={toggleShowDeleteModal}
+          onConfirm={handlerDelete}
+          />
+      ) : null}
+      {
+        isShowEditModal ? (
+          <MovieModal
+            onClose={closeEditModal}
+            onSubmit={handlerSubmit}
+            data={selectedMovie}
+            />
+        ) : null
+      }
+
       <WrappedComponent
         onOpenDeleteModal={handlerDeleteModal}
         onOpenEditModal={handlerOpenEditModal}
