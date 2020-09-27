@@ -1,0 +1,21 @@
+@import '../../styles/variables';
+
+
+.top-section {
+  position: relative;
+  padding: 20px 50px;
+  height: 44vh;
+  background: linear-gradient(to right, rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)), url('../../../assets/images/all-films.jpg');
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    &__btn--add {
+      padding: 15px 15px;
+      color: $red;
+      background-color: #424242d2;
+    }
+  }
+
+}

@@ -1,0 +1,15 @@
+@import "../../../styles/variables";
+
+.details-page {
+  &__top-section-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  &__search-btn {
+    font-size: 20px;
+    color: $red;
+    cursor: pointer;
+  }
+}

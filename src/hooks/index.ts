@@ -2,11 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 export const useToggle = (initValue = false): [boolean, () => void] => {
   const [flag, setFlag] = useState(initValue);
-
   const toggle = useCallback(() => {
-    setFlag(!flag);
-  }, [flag]);
-
+    setFlag(f => !f);
+  }, []);
   return [flag, toggle];
 };
 
