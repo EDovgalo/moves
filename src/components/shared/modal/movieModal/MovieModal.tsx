@@ -13,7 +13,7 @@ type Props = {
   modalTitle?: string,
   data: Movie
 }
-window.moment = moment;
+
 const defaultMovie = new Movie(null, '', '', '', 0);
 
 const validationSchema = Yup.object({
@@ -21,7 +21,7 @@ const validationSchema = Yup.object({
     .required('Title required'),
   poster_path: Yup.string()
     .matches(
-      /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi,
+      /[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&/=]*)?/gi,
       'Enter correct movie url!',
     )
     .nullable()
@@ -46,10 +46,12 @@ export const MovieModal = ({
   modalTitle = 'add movie',
 }: Props): JSX.Element => {
   const movieData = data || defaultMovie;
+
   const { handleSubmit, handleChange, handleReset, values, errors } = useFormik({
     initialValues: { ...movieData },
     validationSchema,
     validateOnChange: false,
+
     onSubmit: v => {
       const value = { ...v };
       value.genres = value.genres.split ? value.genres.split(', ') : value.genres;

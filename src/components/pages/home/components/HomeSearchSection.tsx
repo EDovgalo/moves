@@ -1,15 +1,17 @@
+import { useCallback } from 'react';
 import { AppLabel } from '../../../shared/AppLabel';
 import { Search } from '../../../shared/movieSection/components/Search';
 import { Movie } from '../../../../models/movie.model';
 
 type Props = {
-  onOpenEditModal: (movie: Movie) => void
+  onOpenEditModal: (movie: Movie) => void,
+  onSearchQueryChange: (value: string) => void
 }
 
-export const HomeSearchSection = ({ onOpenEditModal }:Props): JSX.Element => {
-  const handlerOpenEditModal = () => {
+export const HomeSearchSection = ({ onOpenEditModal, onSearchQueryChange }: Props): JSX.Element => {
+  const handlerOpenEditModal = useCallback(() => {
     onOpenEditModal(null);
-  };
+  }, [onOpenEditModal]);
 
   return (
     <>
@@ -19,7 +21,11 @@ export const HomeSearchSection = ({ onOpenEditModal }:Props): JSX.Element => {
           + add movie
         </button>
       </div>
-      <Search title="find your movie" placeholder="What do you want to watch?" />
+      <Search
+        onSearchQueryChange={onSearchQueryChange}
+        title="find your movie"
+        placeholder="What do you want to watch?"
+        />
     </>
   );
 };

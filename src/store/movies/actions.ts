@@ -6,10 +6,10 @@ import {
   GET_MOVIES_SUCCESS,
   MovieActionTypes,
   MOVIES_ERROR,
+  SEARCH_MOVIES_SUCCESS,
   SHOW_SPINNER,
 } from './types';
 import { Movie } from '../../models/movie.model';
-import toaster from '../../components/toaster';
 
 const URL = 'http://localhost:4000/movies';
 
@@ -37,14 +37,19 @@ const filterByGenresSuccessAction = (movies: Movie[]): MovieActionTypes => ({
   payload: movies,
 });
 
-const SortBySuccessAction = (movies: Movie[]): MovieActionTypes => ({
+const sortBySuccessAction = (movies: Movie[]): MovieActionTypes => ({
   type: FILTER_BY_GENRES_SUCCESS,
   payload: movies,
 });
 
-const AddMovieSuccessAction = (movie: Movie): MovieActionTypes => ({
+const addMovieSuccessAction = (movie: Movie): MovieActionTypes => ({
   type: ADD_MOVIE_SUCCESS,
   payload: movie,
+});
+
+const searchMovieSuccessAction = (movies: Movie[]): MovieActionTypes => ({
+  type: SEARCH_MOVIES_SUCCESS,
+  payload: movies,
 });
 
 const setErrorAction = (error: Error): MovieActionTypes => ({
@@ -57,7 +62,11 @@ async function status(res) {
     const error = await res.json();
     throw new Error(error.messages);
   }
-  const result = await res.json();
+  const contentType = res.headers.get('content-type');
+  let result = Promise.resolve({ data: {} as any } as any);
+  if (contentType) {
+    result = await res.json();
+  }
   return result;
 }
 
@@ -73,12 +82,27 @@ export const deleteMovie = (id: number) => dispatch => {
   dispatch(showSpinnerAction());
   fetch(`${URL}/${id}`, {
     method: 'delete',
-  }).then((resp: Response) => status(resp))
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((resp: Response) => status(resp))
     .then(() => {
-      toaster.success('movie was successfully deleted');
       dispatch(deleteMovieSuccessAction(id));
     })
-    .catch((error: Error) => toaster.error(error));
+    .catch((error: Error) => dispatch(setErrorAction(error)));
+};
+
+export const searchMovie = (search: string) => dispatch => {
+  const queryParams = `?search=${search}`;
+  dispatch(showSpinnerAction());
+  fetch(URL + queryParams, {
+    method: 'get',
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((resp: Response) => status(resp))
+    .then(result => {
+      dispatch(searchMovieSuccessAction(result.data));
+    })
+    .catch((error: Error) => dispatch(setErrorAction(error)));
 };
 
 export const editMovie = (movie: Movie) => dispatch => {
@@ -93,10 +117,9 @@ export const editMovie = (movie: Movie) => dispatch => {
   })
     .then((resp: Response) => status(resp))
     .then(result => {
-      toaster.success('movie was successfully updated');
       dispatch(editMovieSuccessAction(result));
     })
-    .catch((error: Error) => toaster.error(error));
+    .catch((error: Error) => dispatch(setErrorAction(error)));
 };
 
 export const filterByGenres = (genres: string[]) => dispatch => {
@@ -113,7 +136,7 @@ export const SortBy = (sortBy: string) => dispatch => {
   const queryParams = sortBy ? `?sortBy=${sortBy}&sortOrder=asc` : '';
   fetch(`${URL}${queryParams}`, {})
     .then((resp: Response) => resp.json())
-    .then(result => dispatch(SortBySuccessAction(result.data)))
+    .then(result => dispatch(sortBySuccessAction(result.data)))
     .catch((error: Error) => dispatch(setErrorAction(error)));
 };
 
@@ -128,8 +151,7 @@ export const addMovie = (movie: Movie) => dispatch => {
   })
     .then((resp: Response) => status(resp))
     .then(result => {
-      toaster.success('movie was successfully added');
-      dispatch(AddMovieSuccessAction(result));
+      dispatch(addMovieSuccessAction(result));
     })
-    .catch((error: Error) => toaster.error(error));
+    .catch((error: Error) => dispatch(setErrorAction(error)));
 };

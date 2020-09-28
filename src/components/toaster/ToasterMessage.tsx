@@ -1,15 +1,15 @@
 import { useCallback } from 'react';
-import { Message } from './Toaster';
+import { IToasterMessage } from '../../models/toasterNotification.model';
 
 type Props = {
-  message: Message,
+  message: IToasterMessage,
   onRemove: (id) => void
 }
 
 export const ToasterMessage = ({ message, onRemove }: Props): JSX.Element => {
   const handlerRemove = useCallback(() => {
     onRemove(message.id);
-  }, [onRemove]);
+  }, [onRemove, message]);
 
   return (
     <div className={`toaster-message ${message.type}`}>
