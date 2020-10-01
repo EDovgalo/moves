@@ -1,14 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
-
 import { MoviesList } from './components/MoviesList';
 import { Filters } from './components/Filters';
 import { LoadSpinner } from '../loadSpiner/LoadSpinner';
 import { Movie } from '../../../models/movie.model';
+import { NotFound } from '../../pages/notFound/NotFound';
 import * as MoviesActions from '../../../store/movies/actions';
-import { deleteMovie } from '../../../store/movies/actions';
-import { withModals } from '../../hoc/withModals';
-import './MovieSection.scss';
 
 export type SortList = {
   caption: string,
@@ -30,22 +27,22 @@ const sortList: Array<SortList> = [
   { caption: 'genre', value: 'genre' },
 ];
 
-const mapStateToProps = state => ({
-  movies: state.movies.movies,
+type OwnProps = {
+  moviesList: Movie[]
+}
+
+const mapStateToProps = (state, { moviesList }: OwnProps) => ({
   isLoading: state.movies.isLoading,
+  moviesList,
 });
 
 const connector = connect(mapStateToProps);
 
 type Props = ConnectedProps<typeof connector>
 
-const MovieSection = ({ movies, isLoading }: Props): JSX.Element => {
+const MovieSection = ({ moviesList, isLoading }: Props): JSX.Element => {
   const dispatch = useDispatch();
   const [activeFilter, setActiveFilter] = useState(filters[0].value);
-
-  useEffect(() => {
-    dispatch(MoviesActions.fetchMovies());
-  }, [dispatch]);
 
   const handlerGenreChange = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
@@ -58,15 +55,13 @@ const MovieSection = ({ movies, isLoading }: Props): JSX.Element => {
     dispatch(MoviesActions.SortBy(value));
   }, [dispatch]);
 
-  const handlerDeleteMovie = useCallback((id: number): void => {
-    dispatch(deleteMovie(id));
+  const handlerOpenDeleteModal = useCallback((id: number): void => {
+    dispatch(MoviesActions.setDeleteMovieId(id));
   }, [dispatch]);
 
-  const handlerAddEditMovie = useCallback((movie: Movie): void => {
-    dispatch(MoviesActions.editMovie(movie));
+  const handlerOpenEditMovieModal = useCallback((movie: Movie): void => {
+    dispatch(MoviesActions.selectMovie(movie));
   }, [dispatch]);
-
-  const CardWithModals = withModals(MoviesList);
 
   return (
     <>
@@ -79,11 +74,15 @@ const MovieSection = ({ movies, isLoading }: Props): JSX.Element => {
           handlerChangeSortValue={changeSortValue}
           />
         <LoadSpinner isLoading={isLoading}>
-          <CardWithModals
-            onDelete={handlerDeleteMovie}
-            onSubmit={handlerAddEditMovie}
-            movies={movies}
-            />
+          { moviesList && moviesList.length
+            ? (
+              <MoviesList
+                onOpenDeleteModal={handlerOpenDeleteModal}
+                onOpenEditModal={handlerOpenEditMovieModal}
+                movies={moviesList}
+                />
+            ) : <NotFound title="Movies" />}
+
         </LoadSpinner>
       </div>
     </>

@@ -1,36 +1,50 @@
-import ReactDOM from 'react-dom';
-import './Modal.scss';
+import { connect, ConnectedProps, useDispatch } from 'react-redux';
+import { useCallback } from 'react';
+import {
+  addMovie,
+  clearDeleteMovieId,
+  clearSelectedMovie,
+  deleteMovie,
+  editMovie,
+} from '../../../store/movies/actions';
+import { Modal } from './Modal';
+import { DeleteMovieModal } from './deleteMovieModal/DeleteMovieModal';
+import { MovieModal } from './movieModal/MovieModal';
 
-type Props = {
-    handlerClose: () => void,
-    modalTitle?: string,
-    children: any
-}
-const modalRoot = document.getElementById('modal-root');
+const mapStateToProps = state => ({
+  deleteMovieId: state.movies.deleteMovieId,
+  selectedMovie: state.movies.selectedMovie,
+});
 
-export const ModalContainer = ({
-  handlerClose, children, modalTitle = 'add movie',
-}: Props):JSX.Element => (
-  ReactDOM.createPortal(
-    <div className="modal-content">
-      <div className="modal">
-        <span
-          role="button"
-          tabIndex={0}
-          className="modal__icon-close"
-          onKeyDown={() => 0}
-          onClick={handlerClose}
-        >
-          &#9587;
-        </span>
-        <div className="modal__header header">
-          <h6 className="header__title">{modalTitle}</h6>
-        </div>
-        <div className="modal__body">
-          {children}
-        </div>
-      </div>
-    </div>,
-    modalRoot,
-  )
-);
+const connector = connect(mapStateToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+const ModalContainer = ({ deleteMovieId, selectedMovie } : Props) => {
+  const dispatch = useDispatch();
+
+  const handlerDeleteMovie = useCallback(() => {
+    dispatch(deleteMovie(deleteMovieId));
+  }, [dispatch, deleteMovieId]);
+
+  const handlerConfirmEdit = useCallback(movie => {
+    movie.id ? dispatch(editMovie(movie))
+      : dispatch(addMovie(movie));
+  }, [dispatch]);
+
+  const handlerCloseModal = useCallback(() => {
+    dispatch(clearDeleteMovieId());
+    dispatch(clearSelectedMovie());
+  }, [dispatch]);
+
+  return (
+    (selectedMovie || deleteMovieId) ? (
+      <Modal modalTitle="delete movie" onClose={handlerCloseModal}>
+        {selectedMovie ? <MovieModal onSubmit={handlerConfirmEdit} data={selectedMovie} /> : null}
+        {deleteMovieId ? <DeleteMovieModal onConfirm={handlerDeleteMovie} /> : null}
+      </Modal>
+    ) : null
+  );
+};
+
+export default connector(ModalContainer);

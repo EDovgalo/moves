@@ -1,5 +1,7 @@
 import {
   ADD_MOVIE_SUCCESS,
+  CLEAR_DELETE_MOVIE_ID,
+  CLEAR_SELECTED_MOVIE,
   DELETE_MOVIE_SUCCESS,
   EDIT_MOVIE_SUCCESS,
   FILTER_BY_GENRES_SUCCESS,
@@ -7,6 +9,8 @@ import {
   MovieActionTypes,
   MOVIES_ERROR,
   SEARCH_MOVIES_SUCCESS,
+  SELECT_MOVIE,
+  SET_DELETE_MOVIE_ID,
   SHOW_SPINNER,
 } from './types';
 import { Movie } from '../../models/movie.model';
@@ -155,3 +159,21 @@ export const addMovie = (movie: Movie) => dispatch => {
     })
     .catch((error: Error) => dispatch(setErrorAction(error)));
 };
+
+export const clearDeleteMovieId = () : MovieActionTypes => ({
+  type: CLEAR_DELETE_MOVIE_ID,
+});
+
+export const setDeleteMovieId = (id) : MovieActionTypes => ({
+  type: SET_DELETE_MOVIE_ID,
+  payload: id,
+});
+
+export const selectMovie = (movie: Movie) : MovieActionTypes => ({
+  type: SELECT_MOVIE,
+  payload: movie,
+});
+
+export const clearSelectedMovie = () : MovieActionTypes => ({
+  type: CLEAR_SELECTED_MOVIE,
+});

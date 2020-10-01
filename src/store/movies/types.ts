@@ -11,6 +11,10 @@ export const SHOW_SPINNER = 'SHOW_SPINNER';
 export const ADD_MOVIE_SUCCESS = 'ADD_MOVIE_SUCCESS';
 export const SEARCH_MOVIES_SUCCESS = 'SEARCH_MOVIES_SUCCESS';
 export const SHOW_NOTIFICATION_MESSAGE = 'SHOW_NOTIFICATION_MESSAGE';
+export const CLEAR_DELETE_MOVIE_ID = 'CLEAR_DELETE_MOVIE_ID';
+export const SET_DELETE_MOVIE_ID = 'SET_DELETE_MOVIE_ID';
+export const CLEAR_SELECTED_MOVIE = 'CLEAR_SELECTED_MOVIE';
+export const SELECT_MOVIE = 'SELECT_MOVIE';
 
 interface IShowSpinner {
   type: typeof SHOW_SPINNER
@@ -55,15 +59,37 @@ interface ISearchSuccessAction {
   payload: Movie[]
 }
 
+interface IClearDeleteMovieId {
+  type: typeof CLEAR_DELETE_MOVIE_ID,
+}
+
+interface ISetDeleteMovieId {
+  type: typeof SET_DELETE_MOVIE_ID,
+  payload: number
+}
+
+interface ISelectMovie {
+  type: typeof SELECT_MOVIE,
+  payload: Movie
+}
+
+interface IClearSelectedMovie {
+  type: typeof CLEAR_SELECTED_MOVIE,
+}
+
 export type MovieActionTypes = IShowSpinner | IGetMovieSuccessAction |
   IErrorAction | IDeleteMovieSuccessAction | IEditMovieSuccessAction |
   IFilterByGenresSuccessAction | ISortBySuccessAction | IAddMovieSuccess |
-  ISearchSuccessAction
+  ISearchSuccessAction | IClearDeleteMovieId | ISetDeleteMovieId | ISelectMovie |
+  IClearSelectedMovie;
 
 export interface IMoviesState {
   movies: Movie[],
   error: Error | string,
   isLoaded: boolean,
   isLoading: boolean
-  notificationMessage: ToasterMessage
+  notificationMessage: ToasterMessage,
+  deleteMovieId: number,
+  selectedMovie: Movie,
+  foundMovies: Movie []
 }

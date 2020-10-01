@@ -1,25 +1,38 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { AppErrorBoundary } from './AppErrorBoundary';
-import { MainPage } from '../components/pages/main/MainPage';
-import { HOME } from './Config';
 import store from '../store';
 import ToasterNotification from '../components/toaster/ToasterNotification';
+import ModalContainer from '../components/shared/modal/ModalContainer';
+import { AppFooter } from '../components/shared/AppFooter';
+import HomePage from '../components/pages/home/HomePage';
+import MovieDetailsPage from '../components/pages/details/MovieDetailsPage';
+import SearchPage from '../components/pages/search/SearchPage';
+import { NotFound } from '../components/pages/notFound/NotFound';
 
 const App = (): JSX.Element => (
   <React.StrictMode>
     <Provider store={store}>
       <Router>
-        <Route exact path="/">
-          <Redirect to={HOME} />
-        </Route>
-        <AppErrorBoundary>
-          <MainPage />
-        </AppErrorBoundary>
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+          <Route path="/film/:id">
+            <MovieDetailsPage />
+          </Route>
+          <Route path="/search">
+            <SearchPage />
+          </Route>
+          <Route exact path="*">
+            <NotFound title="Page" />
+          </Route>
+        </Switch>
       </Router>
       <ToasterNotification />
+      <ModalContainer />
+      <AppFooter />
     </Provider>
   </React.StrictMode>
 );

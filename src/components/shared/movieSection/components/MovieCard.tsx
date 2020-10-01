@@ -11,7 +11,7 @@ import './MovieCard.scss';
 type Props = {
   movie: Movie,
   onOpenEditModal?: (movie: Movie) => void,
-  onOpenDeleteModal?: (movie: Movie) => void,
+  onOpenDeleteModal?: (id: number) => void,
 }
 
 const renderDropDown = (onOpenEditModal, onOpenDeleteModal) => (
@@ -39,12 +39,12 @@ export const MovieCard = React.memo(({ movie,
   };
 
   const handlerOpenDeleteModal = useCallback(() => {
-    onOpenDeleteModal(movie);
-  }, [onOpenDeleteModal]);
+    onOpenDeleteModal(movie.id);
+  }, [onOpenDeleteModal, movie]);
 
   const handlerOpenEditModal = useCallback(() => {
     onOpenEditModal(movie);
-  }, [onOpenEditModal]);
+  }, [onOpenEditModal, movie]);
 
   return (
     <div
@@ -55,7 +55,7 @@ export const MovieCard = React.memo(({ movie,
     >
       {isShowDropDown ? renderDropDown(handlerOpenEditModal, handlerOpenDeleteModal) : null}
       <div className="move-card__img">
-        <Link to={`/details/${id}`}>
+        <Link to={`/film/${id}`}>
           <DefaultImage src={poster_path} alt="poster" />
         </Link>
       </div>
