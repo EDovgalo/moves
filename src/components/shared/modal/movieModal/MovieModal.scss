@@ -4,6 +4,11 @@
 
   .movie-modal-wrapper {
     margin-top: 20px;
+    .error {
+      margin-top: 5px;
+      padding: 5px;
+      color: $error;
+    }
   }
 
   .movie-modal-title {
@@ -13,9 +18,10 @@
   }
 
   .movie-modal-item {
-    background-color: $gray;
+    padding: 0 10px;
     height: 34px;
     width: 100%;
+    background-color: $gray;
     border: none;
   }
 }

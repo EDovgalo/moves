@@ -7,32 +7,33 @@ import { Movie } from '../../models/movie.model';
 type Props = {
   movies?: Movie[],
   onDelete?: (id: number) => void,
-  onSubmit?: (movie?: Movie) => void
+  onSubmit?: (movie?: Movie) => void,
+  onSearchQueryChange?: (value: string) => void
 }
 
 export const withModals = WrappedComponent => ({ onDelete, onSubmit, ...props }: Props) => {
   const [isShowDeleteModal, toggleShowDeleteModal] = useToggle(false);
-  const [isShowEditModal, toggleShowEditModal] = useToggle(false);
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   const handlerDelete = useCallback(() => {
     onDelete(selectedMovie.id);
     toggleShowDeleteModal();
-  }, [selectedMovie]);
+  }, [onDelete, toggleShowDeleteModal, selectedMovie]);
 
   const closeEditModal = useCallback(() => {
-    toggleShowEditModal();
+    setIsShowEditModal(false);
     setSelectedMovie(null);
-  }, [isShowEditModal]);
+  }, []);
 
   const handlerSubmit = useCallback((newMovie: Movie) => {
-    onSubmit(newMovie);
     closeEditModal();
-  }, [onSubmit]);
+    onSubmit(newMovie);
+  }, [onSubmit, closeEditModal]);
 
   const handlerOpenEditModal = (movie: Movie) => {
     setSelectedMovie(movie);
-    toggleShowEditModal();
+    setIsShowEditModal(true);
   };
 
   const handlerDeleteModal = (movie: Movie) => {
@@ -42,17 +43,22 @@ export const withModals = WrappedComponent => ({ onDelete, onSubmit, ...props }:
 
   return (
     <>
-      <DeleteMovieModal
-        onClose={toggleShowDeleteModal}
-        onConfirm={handlerDelete}
-        isShow={isShowDeleteModal}
-        />
-      <MovieModal
-        onClose={closeEditModal}
-        onSubmit={handlerSubmit}
-        data={selectedMovie}
-        isShow={isShowEditModal}
-        />
+      {isShowDeleteModal ? (
+        <DeleteMovieModal
+          onClose={toggleShowDeleteModal}
+          onConfirm={handlerDelete}
+          />
+      ) : null}
+      {
+        isShowEditModal ? (
+          <MovieModal
+            onClose={closeEditModal}
+            onSubmit={handlerSubmit}
+            data={selectedMovie}
+            />
+        ) : null
+      }
+
       <WrappedComponent
         onOpenDeleteModal={handlerDeleteModal}
         onOpenEditModal={handlerOpenEditModal}

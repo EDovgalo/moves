@@ -6,11 +6,7 @@ import { AppErrorBoundary } from './AppErrorBoundary';
 import { MainPage } from '../components/pages/main/MainPage';
 import { HOME } from './Config';
 import store from '../store';
-// import toaster from '../components/toaster';
-//
-// <button onClick={() => {
-//   toaster.success('test')
-// }}>aaaaaaaaaaaaaa</button>
+import ToasterNotification from '../components/toaster/ToasterNotification';
 
 const App = (): JSX.Element => (
   <React.StrictMode>
@@ -23,6 +19,7 @@ const App = (): JSX.Element => (
           <MainPage />
         </AppErrorBoundary>
       </Router>
+      <ToasterNotification />
     </Provider>
   </React.StrictMode>
 );

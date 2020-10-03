@@ -45,26 +45,26 @@ const MovieSection = ({ movies, isLoading }: Props): JSX.Element => {
 
   useEffect(() => {
     dispatch(MoviesActions.fetchMovies());
-  }, []);
+  }, [dispatch]);
 
   const handlerGenreChange = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
     setActiveFilter(value);
     dispatch(MoviesActions.filterByGenres([value]));
-  }, [movies]);
+  }, [dispatch]);
 
   const changeSortValue = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
     dispatch(MoviesActions.SortBy(value));
-  }, [movies]);
+  }, [dispatch]);
 
   const handlerDeleteMovie = useCallback((id: number): void => {
     dispatch(deleteMovie(id));
-  }, [movies]);
+  }, [dispatch]);
 
   const handlerAddEditMovie = useCallback((movie: Movie): void => {
     dispatch(MoviesActions.editMovie(movie));
-  }, [movies]);
+  }, [dispatch]);
 
   const CardWithModals = withModals(MoviesList);
 
