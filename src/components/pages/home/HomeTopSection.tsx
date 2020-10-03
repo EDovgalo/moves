@@ -3,7 +3,7 @@ import { TopSection } from '../../shared/topSection/TopSection';
 import { HomeSearchSection } from './components/HomeSearchSection';
 import { withModals } from '../../hoc/withModals';
 import { Movie } from '../../../models/movie.model';
-import { addMovie, searchMovie } from '../../../store/movies/actions';
+import { addMovie, fetchMovies } from '../../../store/movies/actions';
 import './HomeTopSection.scss';
 
 export const HomeTopSection = (): JSX.Element => {
@@ -15,7 +15,7 @@ export const HomeTopSection = (): JSX.Element => {
   };
 
   const handlerSearch = (search: string) => {
-    dispatch(searchMovie(search));
+    dispatch(fetchMovies({ search, searchBy: 'title' }));
   };
 
   return (

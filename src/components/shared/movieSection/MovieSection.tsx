@@ -33,30 +33,31 @@ const sortList: Array<SortList> = [
 const mapStateToProps = state => ({
   movies: state.movies.movies,
   isLoading: state.movies.isLoading,
+  queryParams: state.movies.queryParams,
 });
 
 const connector = connect(mapStateToProps);
 
 type Props = ConnectedProps<typeof connector>
 
-const MovieSection = ({ movies, isLoading }: Props): JSX.Element => {
+const MovieSection = ({ movies, isLoading, queryParams }: Props): JSX.Element => {
   const dispatch = useDispatch();
   const [activeFilter, setActiveFilter] = useState(filters[0].value);
 
   useEffect(() => {
-    dispatch(MoviesActions.fetchMovies());
-  }, [dispatch]);
+    dispatch(MoviesActions.fetchMovies({}));
+  }, []);
 
   const handlerGenreChange = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
     setActiveFilter(value);
-    dispatch(MoviesActions.filterByGenres([value]));
-  }, [dispatch]);
+    dispatch(MoviesActions.fetchMovies({ ...queryParams, filter: value }));
+  }, [queryParams, dispatch]);
 
   const changeSortValue = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
-    dispatch(MoviesActions.SortBy(value));
-  }, [dispatch]);
+    dispatch(MoviesActions.fetchMovies({ ...queryParams, sortBy: value }));
+  }, [queryParams, dispatch]);
 
   const handlerDeleteMovie = useCallback((id: number): void => {
     dispatch(deleteMovie(id));
