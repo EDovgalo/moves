@@ -1,11 +1,11 @@
+import { useDispatch, connect, ConnectedProps } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useCallback } from 'react';
-import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { TopSection } from '../../shared/topSection/TopSection';
 import { AppLabel } from '../../shared/AppLabel';
 import { Search } from '../../shared/movieSection/components/Search';
-import { selectMovie } from '../../../store/movies/actions';
 import { Movie } from '../../../models/movie.model';
+import { fetchMovies, setEditMovie } from '../../../store/movies/actions';
 import './HomeTopSection.scss';
 
 type OwnProps = {
@@ -27,12 +27,13 @@ export const HomeTopSection = ({ searchValue = '' }: Props): JSX.Element => {
   const history = useHistory();
 
   const handlerOpenAddModal = useCallback(() => {
-    dispatch(selectMovie(
+    dispatch(setEditMovie(
       new Movie(null, '', '', '', 0),
     ));
   }, [dispatch]);
 
   const handlerSearch = useCallback((search: string) => {
+    dispatch(fetchMovies({ search, searchBy: 'title' }));
     history.push(`../search?q=${search}`);
   }, [history]);
 

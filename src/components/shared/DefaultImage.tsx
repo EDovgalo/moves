@@ -5,7 +5,8 @@ import imageNotAvailable from '../../../assets/images/image-not-available.png';
 type Props = {
   src: string,
   className?: string,
-  alt: string
+  alt: string,
+  onClick: () => void
 }
 
 const handlerError = (event: React.InvalidEvent<HTMLImageElement>) => {
@@ -15,5 +16,15 @@ const handlerError = (event: React.InvalidEvent<HTMLImageElement>) => {
 
 export const DefaultImage = React.memo(({
   src,
+  onClick,
   className,
-  alt }: Props) => <img src={src} className={className} alt={alt} onError={handlerError} />);
+  alt }: Props) => (
+
+    <img
+      src={src}
+      onClick={onClick}
+      className={className}
+      alt={alt}
+      onError={handlerError}
+      />
+));

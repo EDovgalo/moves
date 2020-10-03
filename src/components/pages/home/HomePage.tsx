@@ -16,7 +16,7 @@ const HomePage = ({ movies }: Props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMovies());
+    dispatch(fetchMovies({}));
   }, []);
 
   return (

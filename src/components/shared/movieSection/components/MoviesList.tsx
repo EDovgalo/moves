@@ -6,11 +6,12 @@ import './MoviesList.scss';
 type Props = {
   movies: Array<Movie>,
   onOpenDeleteModal: (id: number) => void,
-  onOpenEditModal: (movie: Movie) => void
+  onOpenEditModal: (movie: Movie) => void,
+  onSelectMovie:(movie: Movie) => void,
 }
 
 export const MoviesList = React.memo(({ movies,
-  onOpenEditModal, onOpenDeleteModal }: Props):JSX.Element => (
+  onOpenEditModal, onOpenDeleteModal, onSelectMovie }: Props):JSX.Element => (
     <div className="moves">
       <p className="moves__total">
         <b>{movies.length}</b>
@@ -19,6 +20,7 @@ export const MoviesList = React.memo(({ movies,
       <div className="moves__list">
         {movies.map(item => (
           <MovieCard
+            onSelectMovie={onSelectMovie}
             onOpenDeleteModal={onOpenDeleteModal}
             onOpenEditModal={onOpenEditModal}
             key={item.id}

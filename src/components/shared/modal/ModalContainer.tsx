@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import {
   addMovie,
   clearDeleteMovieId,
-  clearSelectedMovie,
+  clearEditedMovie,
   deleteMovie,
   editMovie,
 } from '../../../store/movies/actions';
@@ -13,14 +13,14 @@ import { MovieModal } from './movieModal/MovieModal';
 
 const mapStateToProps = state => ({
   deleteMovieId: state.movies.deleteMovieId,
-  selectedMovie: state.movies.selectedMovie,
+  editedMovie: state.movies.editedMovie,
 });
 
 const connector = connect(mapStateToProps);
 
 type Props = ConnectedProps<typeof connector>;
 
-const ModalContainer = ({ deleteMovieId, selectedMovie } : Props) => {
+const ModalContainer = ({ deleteMovieId, editedMovie } : Props) => {
   const dispatch = useDispatch();
 
   const handlerDeleteMovie = useCallback(() => {
@@ -34,13 +34,13 @@ const ModalContainer = ({ deleteMovieId, selectedMovie } : Props) => {
 
   const handlerCloseModal = useCallback(() => {
     dispatch(clearDeleteMovieId());
-    dispatch(clearSelectedMovie());
+    dispatch(clearEditedMovie());
   }, [dispatch]);
 
   return (
-    (selectedMovie || deleteMovieId) ? (
+    (editedMovie || deleteMovieId) ? (
       <Modal modalTitle="delete movie" onClose={handlerCloseModal}>
-        {selectedMovie ? <MovieModal onSubmit={handlerConfirmEdit} data={selectedMovie} /> : null}
+        {editedMovie ? <MovieModal onSubmit={handlerConfirmEdit} data={editedMovie} /> : null}
         {deleteMovieId ? <DeleteMovieModal onConfirm={handlerDeleteMovie} /> : null}
       </Modal>
     ) : null
