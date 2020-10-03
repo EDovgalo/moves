@@ -21,7 +21,9 @@ export const DefaultImage = React.memo(({
   alt }: Props) => (
 
     <img
+      role="presentation"
       src={src}
+      onKeyDown={onClick}
       onClick={onClick}
       className={className}
       alt={alt}
