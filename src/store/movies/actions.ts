@@ -1,6 +1,7 @@
 import {
   ADD_MOVIE_SUCCESS,
   CLEAR_DELETE_MOVIE_ID,
+  CLEAR_MOVIES,
   CLEAR_SELECTED_MOVIE,
   DELETE_MOVIE_SUCCESS,
   EDIT_MOVIE_SUCCESS,
@@ -81,7 +82,7 @@ export const getMovieById = id => dispatch => {
   dispatch(showSpinnerAction());
   return fetch(`${URL}/${id}`)
     .then((resp: Response) => status(resp))
-    .then(result => dispatch(getMovieByIdSuccess(result.data[0])))
+    .then(result => dispatch(getMovieByIdSuccess(result)))
     .catch((error: Error) => dispatch(setErrorAction(error)));
 };
 
@@ -152,4 +153,8 @@ export const selectMovie = (movie: Movie) : MovieActionTypes => ({
 
 export const clearEditedMovie = () : MovieActionTypes => ({
   type: CLEAR_SELECTED_MOVIE,
+});
+
+export const clearMovies = () : MovieActionTypes => ({
+  type: CLEAR_MOVIES,
 });
