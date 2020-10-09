@@ -46,7 +46,7 @@ describe('actions', () => {
     it('#getMovieById should get movie by id', () => {
       const id = 1;
       window.fetch = jest.fn().mockImplementation(() => Promise.resolve(mockResponse(200,
-        null, JSON.stringify({ data: [{ id }] }))));
+        null, JSON.stringify({ id }))));
       return store.dispatch(Actions.getMovieById(id))
         .then(() => {
           const expectedActions = store.getActions();
@@ -176,5 +176,12 @@ describe('actions', () => {
       type: Types.CLEAR_SELECTED_MOVIE,
     };
     expect(Actions.clearEditedMovie()).toEqual(expectedAction);
+  });
+
+  it('#clearEditedMovie', () => {
+    const expectedAction = {
+      type: Types.CLEAR_MOVIES,
+    };
+    expect(Actions.clearMovies()).toEqual(expectedAction);
   });
 });

@@ -112,7 +112,7 @@ describe('movieReducer', () => {
     expect(movieReducer({ }as any, {
       type: Types.SELECT_MOVIE,
       payload: {} as Movie,
-    })).toEqual({ selectedMovie: {} });
+    })).toEqual({ selectedMovie: {}, isLoading: false });
   });
 
   it('should handle SET_EDIT_MOVIE', () => {
