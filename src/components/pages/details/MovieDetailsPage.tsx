@@ -1,9 +1,8 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import MovieSection from '../../shared/movieSection/MovieSection';
 import { MovieDetails } from './components/MovieDetails';
-import { findById } from '../../../helpers/utils';
 import { fetchMovies, getMovieById } from '../../../store/movies/actions';
 
 const mapStateToProps = state => ({
@@ -27,10 +26,8 @@ const MovieDetailsPage = ({ movie, movies, isLoading }: Props) => {
   }, [movies, dispatch]);
 
   useEffect(() => {
-    if (!movie) {
-      dispatch(getMovieById(id));
-    }
-  }, [movie, id, dispatch]);
+    dispatch(getMovieById(id));
+  }, [id, dispatch]);
 
   return (
     <>

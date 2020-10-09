@@ -1,9 +1,11 @@
 import {
   ADD_MOVIE_SUCCESS,
   CLEAR_DELETE_MOVIE_ID,
+  CLEAR_MOVIES,
   CLEAR_SELECTED_MOVIE,
   DELETE_MOVIE_SUCCESS,
   EDIT_MOVIE_SUCCESS,
+  GET_MOVIE_BY_ID_SUCCESS,
   GET_MOVIES_SUCCESS,
   IMoviesState,
   MovieActionTypes,
@@ -76,11 +78,17 @@ export const movieReducer = (state = initialState, action: MovieActionTypes): IM
         editedMovie: null,
       };
     }
+    case GET_MOVIE_BY_ID_SUCCESS: {
+      return { ...state, isLoading: false, selectedMovie: action.payload };
+    }
     case SET_DELETE_MOVIE_ID: {
       return { ...state, deleteMovieId: action.payload };
     }
     case CLEAR_DELETE_MOVIE_ID: {
       return { ...state, deleteMovieId: null };
+    }
+    case CLEAR_MOVIES: {
+      return { ...state, movies: [] };
     }
     case SET_EDIT_MOVIE: {
       return { ...state, editedMovie: action.payload };

@@ -5,7 +5,7 @@ import { TopSection } from '../../shared/topSection/TopSection';
 import { AppLabel } from '../../shared/AppLabel';
 import { Search } from '../../shared/movieSection/components/Search';
 import { Movie } from '../../../models/movie.model';
-import { fetchMovies, setEditMovie } from '../../../store/movies/actions';
+import { clearMovies, fetchMovies, setEditMovie } from '../../../store/movies/actions';
 import './HomeTopSection.scss';
 
 type OwnProps = {
@@ -33,9 +33,13 @@ export const HomeTopSection = ({ searchValue = '' }: Props): JSX.Element => {
   }, [dispatch]);
 
   const handlerSearch = useCallback((search: string) => {
-    dispatch(fetchMovies({ search, searchBy: 'title' }));
+    if (search) {
+      dispatch(fetchMovies({ search, searchBy: 'title' }));
+    } else {
+      dispatch(clearMovies());
+    }
     history.push(`../search?q=${search}`);
-  }, [history]);
+  }, [dispatch, history]);
 
   return (
     <div className="home-page">
@@ -47,7 +51,7 @@ export const HomeTopSection = ({ searchValue = '' }: Props): JSX.Element => {
           </button>
         </div>
         <Search
-          searchValue={searchValue}
+          searchValue={searchValue || ''}
           onSearch={handlerSearch}
           title="find your movie"
           placeholder="What do you want to watch?"

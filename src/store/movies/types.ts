@@ -14,6 +14,7 @@ export const CLEAR_SELECTED_MOVIE = 'CLEAR_SELECTED_MOVIE';
 export const SET_EDIT_MOVIE = 'SET_EDIT_MOVIE';
 export const GET_MOVIE_BY_ID_SUCCESS = 'GET_MOVIE_BY_ID_SUCCESS';
 export const SELECT_MOVIE = 'GET_MOVIE_BY_ID_SUCCESS';
+export const CLEAR_MOVIES = 'CLEAR_MOVIES';
 
 interface IShowSpinner {
   type: typeof SHOW_SPINNER
@@ -87,10 +88,15 @@ interface ISelectMovie {
   payload: Movie
 }
 
+interface IClearMovies {
+  type: typeof CLEAR_MOVIES,
+}
+
 export type MovieActionTypes = IShowSpinner | IGetMovieSuccessAction |
   IErrorAction | IDeleteMovieSuccessAction | IEditMovieSuccessAction |
   IClearDeleteMovieId | ISetDeleteMovieId | ISetEditMovie | ISelectMovie |
-  IClearEditedMovie | IAddMovieSuccess | IUpdateQueryParams | IGetMovieByIdSuccess
+  IClearEditedMovie | IAddMovieSuccess | IUpdateQueryParams | IGetMovieByIdSuccess |
+  IClearMovies
 
 export interface IMoviesState {
   movies: Movie[],
