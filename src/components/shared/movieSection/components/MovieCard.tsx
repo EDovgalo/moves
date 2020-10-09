@@ -1,5 +1,4 @@
-import { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback } from 'react';
 import { Movie } from '../../../../models/movie.model';
 import { join } from '../../../../helpers/utils';
 import { DefaultImage } from '../../DefaultImage';
@@ -40,8 +39,8 @@ export const MovieCard = React.memo(({ movie,
   };
 
   const handlerOpenDeleteModal = useCallback(() => {
-    onOpenDeleteModal(movie.id);
-  }, [onOpenDeleteModal, movie]);
+    onOpenDeleteModal(id);
+  }, [onOpenDeleteModal, id]);
 
   const handlerOpenEditModal = useCallback(() => {
     onOpenEditModal(movie);

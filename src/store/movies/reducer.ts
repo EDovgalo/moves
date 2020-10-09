@@ -69,8 +69,7 @@ export const movieReducer = (state = initialState, action: MovieActionTypes): IM
       const notificationMessage = new ToasterMessage('movie has been successfully added');
       return {
         ...state,
-        isLoading:
-          false,
+        isLoading: false,
         movies: [...movies],
         notificationMessage,
         editedMovie: null,

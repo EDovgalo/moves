@@ -30,6 +30,7 @@
     "no-empty-function": "off",
     "max-classes-per-file": ["error", 5],
     "no-useless-constructor": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "react/jsx-closing-bracket-location": [
       "error", { "selfClosing": "props-aligned", "nonEmpty": "line-aligned" }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],

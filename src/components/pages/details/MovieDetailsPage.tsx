@@ -3,7 +3,6 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import MovieSection from '../../shared/movieSection/MovieSection';
 import { MovieDetails } from './components/MovieDetails';
-import { findById } from '../../../helpers/utils';
 import { fetchMovies, getMovieById } from '../../../store/movies/actions';
 
 const mapStateToProps = state => ({
