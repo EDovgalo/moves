@@ -7,12 +7,11 @@ import {
   EDIT_MOVIE_SUCCESS,
   GET_MOVIE_BY_ID_SUCCESS,
   GET_MOVIES_SUCCESS,
-  IQueryParams,
   MovieActionTypes,
   MOVIES_ERROR,
   SELECT_MOVIE,
   SET_DELETE_MOVIE_ID,
-  SET_EDIT_MOVIE,
+  SET_EDIT_MOVIE, SET_QUERY_PARAMS,
   SHOW_SPINNER,
 } from './types';
 import { Movie } from '../../models/movie.model';
@@ -23,11 +22,10 @@ const showSpinnerAction = (): MovieActionTypes => ({
   type: SHOW_SPINNER,
 });
 
-const getMoviesSuccessAction = (movies: Movie[], queryParams: IQueryParams): MovieActionTypes => ({
+const getMoviesSuccessAction = (movies: Movie[]): MovieActionTypes => ({
   type: GET_MOVIES_SUCCESS,
   payload: {
     movies,
-    queryParams,
   },
 });
 
@@ -74,12 +72,11 @@ export const fetchMovies = params => dispatch => {
   dispatch(showSpinnerAction());
   fetch(`${URL}?${queryParams}`)
     .then((resp: Response) => status(resp))
-    .then(result => dispatch(getMoviesSuccessAction(result.data, params)))
+    .then(result => dispatch(getMoviesSuccessAction(result.data)))
     .catch((error: Error) => dispatch(setErrorAction(error)));
 };
 
 export const getMovieById = id => dispatch => {
-  dispatch(showSpinnerAction());
   fetch(`${URL}/${id}`)
     .then((resp: Response) => status(resp))
     .then(result => dispatch(getMovieByIdSuccess(result)))
@@ -157,4 +154,9 @@ export const clearEditedMovie = () : MovieActionTypes => ({
 
 export const clearMovies = () : MovieActionTypes => ({
   type: CLEAR_MOVIES,
+});
+
+export const setQueryParams = params => ({
+  type: SET_QUERY_PARAMS,
+  payload: params,
 });

@@ -1,26 +1,25 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router';
-import MovieSection from '../../shared/movieSection/MovieSection';
 import { HomeTopSection } from '../home/HomeTopSection';
+import { clearMovies, setQueryParams } from '../../../store/movies/actions';
 
-const mapStateToProps = state => ({
-  movies: state.movies.movies,
-});
-
-const connector = connect(mapStateToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-const SearchPage = ({ movies }: Props) => {
+export const SearchPage = (): JSX.Element => {
   const location = useLocation();
-  const searchString = new URLSearchParams(location.search).get('q');
+  const dispatch = useDispatch();
+  const searchTerm = new URLSearchParams(location.search).get('q');
+
+  useEffect(() => {
+    if (searchTerm) {
+      dispatch(setQueryParams({ search: searchTerm }));
+    } else {
+      dispatch(clearMovies());
+    }
+  }, [dispatch, searchTerm]);
 
   return (
     <>
-      <HomeTopSection searchValue={searchString} />
-      <MovieSection moviesList={movies || []} />
+      <HomeTopSection searchTerm={searchTerm} />
     </>
   );
 };
-
-export default connector(SearchPage);

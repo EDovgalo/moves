@@ -1,29 +1,19 @@
-import { useDispatch, connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useCallback } from 'react';
 import { TopSection } from '../../shared/topSection/TopSection';
 import { AppLabel } from '../../shared/AppLabel';
 import { Search } from '../../shared/movieSection/components/Search';
 import { Movie } from '../../../models/movie.model';
-import { clearMovies, fetchMovies, setEditMovie } from '../../../store/movies/actions';
+import { setEditMovie } from '../../../store/movies/actions';
 import './HomeTopSection.scss';
 
-type OwnProps = {
-  searchValue: string
+type Props = {
+  searchTerm?: string
 }
 
-const mapStateToProps = (state, { searchValue }: OwnProps) => ({
-  isLoading: state.movies.isLoading,
-  searchValue,
-});
-
-const connector = connect(mapStateToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export const HomeTopSection = ({ searchValue = '' }: Props): JSX.Element => {
+export const HomeTopSection = ({ searchTerm = '' }: Props): JSX.Element => {
   const dispatch = useDispatch();
-
   const history = useHistory();
 
   const handlerOpenAddModal = useCallback(() => {
@@ -33,13 +23,8 @@ export const HomeTopSection = ({ searchValue = '' }: Props): JSX.Element => {
   }, [dispatch]);
 
   const handlerSearch = useCallback((search: string) => {
-    if (search) {
-      dispatch(fetchMovies({ search, searchBy: 'title' }));
-    } else {
-      dispatch(clearMovies());
-    }
     history.push(`../search?q=${search}`);
-  }, [dispatch, history]);
+  }, [history]);
 
   return (
     <div className="home-page">
@@ -51,7 +36,7 @@ export const HomeTopSection = ({ searchValue = '' }: Props): JSX.Element => {
           </button>
         </div>
         <Search
-          searchValue={searchValue || ''}
+          searchValue={searchTerm}
           onSearch={handlerSearch}
           title="find your movie"
           placeholder="What do you want to watch?"

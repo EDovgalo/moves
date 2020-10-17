@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { MoviesList } from './components/MoviesList';
@@ -28,14 +28,10 @@ const sortList: Array<SortList> = [
   { caption: 'genre', value: 'genre' },
 ];
 
-type OwnProps = {
-  moviesList: Movie[]
-}
-
-const mapStateToProps = (state, { moviesList }: OwnProps) => ({
+const mapStateToProps = state => ({
   isLoading: state.movies.isLoading,
   queryParams: state.movies.queryParams,
-  moviesList,
+  moviesList: state.movies.movies,
 });
 
 const connector = connect(mapStateToProps);
@@ -50,12 +46,12 @@ const MovieSection = ({ moviesList, isLoading, queryParams }: Props): JSX.Elemen
   const handlerGenreChange = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
     setActiveFilter(value);
-    dispatch(MoviesActions.fetchMovies({ ...queryParams, filter: value }));
+    dispatch(MoviesActions.setQueryParams({ ...queryParams, filter: value }));
   }, [queryParams, dispatch]);
 
   const changeSortValue = useCallback((e: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
-    dispatch(MoviesActions.fetchMovies({ ...queryParams, sortBy: value }));
+    dispatch(MoviesActions.setQueryParams({ ...queryParams, sortBy: value, sortOrder: 'asc' }));
   }, [queryParams, dispatch]);
 
   const handlerOpenDeleteModal = useCallback((id: number): void => {
@@ -69,7 +65,11 @@ const MovieSection = ({ moviesList, isLoading, queryParams }: Props): JSX.Elemen
   const handleSelectMovie = useCallback((movie: Movie): void => {
     dispatch(MoviesActions.selectMovie(movie));
     history.push(`/film/${movie.id}`);
-  }, [dispatch]);
+  }, [history, dispatch]);
+
+  useEffect(() => {
+    dispatch(MoviesActions.fetchMovies(queryParams));
+  }, [dispatch, queryParams]);
 
   return (
     <>
