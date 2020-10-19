@@ -5,4 +5,7 @@
   flex-direction: column;
   background-color: $dark-gray;
   flex-grow: 1;
+  .not-found {
+    margin-top: 5%;
+  }
 }

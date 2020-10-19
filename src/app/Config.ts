@@ -1,2 +1,3 @@
 export const HOME = '/home';
-export const DETAILS = '/details/:id';
+export const FILM = '/film/:id';
+export const SEARCH = '/search';

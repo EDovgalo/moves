@@ -11,7 +11,8 @@ import './MovieCard.scss';
 type Props = {
   movie: Movie,
   onOpenEditModal?: (movie: Movie) => void,
-  onOpenDeleteModal?: (movie: Movie) => void,
+  onOpenDeleteModal?: (id: number) => void,
+  onSelectMovie:(movie: Movie) => void,
 }
 
 const renderDropDown = (onOpenEditModal, onOpenDeleteModal) => (
@@ -28,7 +29,7 @@ const renderDropDown = (onOpenEditModal, onOpenDeleteModal) => (
 );
 
 export const MovieCard = React.memo(({ movie,
-  onOpenDeleteModal, onOpenEditModal }: Props): JSX.Element => {
+  onOpenDeleteModal, onOpenEditModal, onSelectMovie }: Props): JSX.Element => {
   const { id, poster_path, title, release_date, genres } = movie;
   const [isShowDropDown, toggleShowDropDown] = useToggle(false);
 
@@ -39,12 +40,16 @@ export const MovieCard = React.memo(({ movie,
   };
 
   const handlerOpenDeleteModal = useCallback(() => {
-    onOpenDeleteModal(movie);
-  }, [onOpenDeleteModal]);
+    onOpenDeleteModal(movie.id);
+  }, [onOpenDeleteModal, movie]);
 
   const handlerOpenEditModal = useCallback(() => {
     onOpenEditModal(movie);
-  }, [onOpenEditModal]);
+  }, [onOpenEditModal, movie]);
+
+  const handlerSelectMovie = useCallback(() => {
+    onSelectMovie(movie);
+  }, [onSelectMovie, movie]);
 
   return (
     <div
@@ -55,9 +60,7 @@ export const MovieCard = React.memo(({ movie,
     >
       {isShowDropDown ? renderDropDown(handlerOpenEditModal, handlerOpenDeleteModal) : null}
       <div className="move-card__img">
-        <Link to={`/details/${id}`}>
-          <DefaultImage src={poster_path} alt="poster" />
-        </Link>
+        <DefaultImage src={poster_path} onClick={handlerSelectMovie} alt="poster" />
       </div>
       <div className="move-card__info">
         <div className="info__title-date">

@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Search.scss';
 
 type Props = {
   placeholder?: string,
   title?: string,
-  onSearchQueryChange: (value: string) => void
+  searchValue?: string
+  onSearch: (value: string) => void
 }
 
-export const Search = ({ title, placeholder, onSearchQueryChange }: Props): JSX.Element => {
-  const [searchQuery, setSearchQuery] = useState('');
+export const Search = ({ title, placeholder, onSearch, searchValue }: Props): JSX.Element => {
+  const [searchQuery, setSearchQuery] = useState(searchValue || '');
+  useEffect(() => {
+    setSearchQuery(searchValue || '');
+  }, [searchValue]);
 
-  const handlerSearch = () => {
-    onSearchQueryChange(searchQuery);
+  const handlerSearch = e => {
+    e.preventDefault();
+    onSearch(searchQuery);
   };
 
   const handlerSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,15 +25,16 @@ export const Search = ({ title, placeholder, onSearchQueryChange }: Props): JSX.
   };
 
   return (
-    <form className="search">
+    <form className="search" onSubmit={handlerSearch}>
       <div className="wrapper">
         <h4 className="search__title">{title}</h4>
         <input
+          value={searchQuery}
           onChange={handlerSearchInput}
           className="search__input"
           placeholder={placeholder}
           />
-        <button type="button" onClick={handlerSearch} className="search__btn--search add-btn">
+        <button type="submit" onClick={handlerSearch} className="search__btn--search add-btn">
           search
         </button>
       </div>
