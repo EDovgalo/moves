@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { TopSection } from '../../../shared/topSection/TopSection';
 import { DetailsPageTopSection } from './DetailsPageTopSection';
 import { AppLabel } from '../../../shared/AppLabel';
@@ -16,9 +18,9 @@ export const MovieDetails = ({ movie, isLoading }: Props): JSX.Element => (
     <TopSection>
       <div className="details-page__top-section-header">
         <AppLabel />
-        <button className="details-page__search-btn" type="button">
+        <Link className="details-page__search-btn" to="/search">
           <i className="fa fa-search" />
-        </button>
+        </Link>
       </div>
       <LoadSpinner isLoading={isLoading}>
         {movie ? <DetailsPageTopSection movie={movie} /> : <NotFound title="Movie" />}

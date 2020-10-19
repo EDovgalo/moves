@@ -9,13 +9,13 @@ type Props = {
 }
 
 export const Search = ({ title, placeholder, onSearch, searchValue }: Props): JSX.Element => {
-  const [searchQuery, setSearchQuery] = useState(searchValue);
-
+  const [searchQuery, setSearchQuery] = useState(searchValue || '');
   useEffect(() => {
-    setSearchQuery(searchValue);
+    setSearchQuery(searchValue || '');
   }, [searchValue]);
 
-  const handlerSearch = () => {
+  const handlerSearch = e => {
+    e.preventDefault();
     onSearch(searchQuery);
   };
 
@@ -25,7 +25,7 @@ export const Search = ({ title, placeholder, onSearch, searchValue }: Props): JS
   };
 
   return (
-    <form className="search">
+    <form className="search" onSubmit={handlerSearch}>
       <div className="wrapper">
         <h4 className="search__title">{title}</h4>
         <input
@@ -34,7 +34,7 @@ export const Search = ({ title, placeholder, onSearch, searchValue }: Props): JS
           className="search__input"
           placeholder={placeholder}
           />
-        <button type="button" onClick={handlerSearch} className="search__btn--search add-btn">
+        <button type="submit" onClick={handlerSearch} className="search__btn--search add-btn">
           search
         </button>
       </div>

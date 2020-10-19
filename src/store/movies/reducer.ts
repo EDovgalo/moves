@@ -13,6 +13,7 @@ import {
   SELECT_MOVIE,
   SET_DELETE_MOVIE_ID,
   SET_EDIT_MOVIE,
+  SET_QUERY_PARAMS,
   SHOW_SPINNER,
 } from './types';
 import { ToasterMessage, ToasterMessageType } from '../../models/toasterNotification.model';
@@ -25,9 +26,8 @@ const initialState: IMoviesState = {
   notificationMessage: null,
   deleteMovieId: null,
   editedMovie: null,
-  foundMovies: [],
   selectedMovie: null,
-  queryParams: { filter: null, search: null, sortBy: null, searchBy: 'title' },
+  queryParams: { searchBy: 'title', sortOrder: 'asc' },
 };
 
 export const movieReducer = (state = initialState, action: MovieActionTypes): IMoviesState => {
@@ -35,14 +35,12 @@ export const movieReducer = (state = initialState, action: MovieActionTypes): IM
     case SHOW_SPINNER:
       return { ...state, isLoading: true };
     case GET_MOVIES_SUCCESS: {
-      const { queryParams, movies } = action.payload;
+      const { movies } = action.payload;
       return {
         ...state,
-        foundMovies: [],
         isLoaded: true,
         isLoading: false,
         movies,
-        queryParams,
       };
     }
     case DELETE_MOVIE_SUCCESS: {
@@ -102,6 +100,10 @@ export const movieReducer = (state = initialState, action: MovieActionTypes): IM
       const error = action.payload;
       const notificationMessage = new ToasterMessage('Error', ToasterMessageType.ERROR);
       return { ...state, isLoading: false, error, notificationMessage };
+    }
+    case SET_QUERY_PARAMS: {
+      const { queryParams } = state;
+      return { ...state, queryParams: { ...queryParams, ...action.payload } };
     }
     default:
       return state;

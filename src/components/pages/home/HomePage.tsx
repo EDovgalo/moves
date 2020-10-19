@@ -1,18 +1,9 @@
 import { useEffect } from 'react';
-import { connect, ConnectedProps, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchMovies } from '../../../store/movies/actions';
 import { HomeTopSection } from './HomeTopSection';
-import MovieSection from '../../shared/movieSection/MovieSection';
 
-const mapStateToProps = state => ({
-  movies: state.movies.movies,
-});
-
-const connector = connect(mapStateToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-const HomePage = ({ movies }: Props) => {
+export const HomePage = (): JSX.Element => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,10 +12,7 @@ const HomePage = ({ movies }: Props) => {
 
   return (
     <>
-      <HomeTopSection onSearch={null} onOpenAddModal={null} />
-      <MovieSection moviesList={movies} />
+      <HomeTopSection />
     </>
   );
 };
-
-export default connector(HomePage);

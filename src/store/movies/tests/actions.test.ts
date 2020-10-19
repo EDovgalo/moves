@@ -39,7 +39,7 @@ describe('actions', () => {
           expect(expectedActions.length).toBe(2);
           expect(expectedActions).toEqual([
             { type: Types.SHOW_SPINNER },
-            { type: Types.GET_MOVIES_SUCCESS, payload: { movies: mockMovies, queryParams } }]);
+            { type: Types.GET_MOVIES_SUCCESS, payload: { movies: mockMovies } }]);
         });
     });
 
@@ -52,7 +52,6 @@ describe('actions', () => {
           const expectedActions = store.getActions();
           expect(window.fetch).toHaveBeenCalledWith(`${URL}/${id}`);
           expect(expectedActions).toEqual([
-            { type: Types.SHOW_SPINNER },
             { type: Types.GET_MOVIE_BY_ID_SUCCESS, payload: { id } }]);
         });
     });
@@ -183,5 +182,13 @@ describe('actions', () => {
       type: Types.CLEAR_MOVIES,
     };
     expect(Actions.clearMovies()).toEqual(expectedAction);
+  });
+
+  it('#clearEditedMovie', () => {
+    const expectedAction = {
+      type: Types.SET_QUERY_PARAMS,
+      payload: { sort: 'asc' },
+    };
+    expect(Actions.setQueryParams({ sort: 'asc' })).toEqual(expectedAction);
   });
 });

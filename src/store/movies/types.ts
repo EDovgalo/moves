@@ -15,23 +15,24 @@ export const SET_EDIT_MOVIE = 'SET_EDIT_MOVIE';
 export const GET_MOVIE_BY_ID_SUCCESS = 'GET_MOVIE_BY_ID_SUCCESS';
 export const SELECT_MOVIE = 'GET_MOVIE_BY_ID_SUCCESS';
 export const CLEAR_MOVIES = 'CLEAR_MOVIES';
+export const SET_QUERY_PARAMS = 'SET_QUERY_PARAMS';
 
 interface IShowSpinner {
   type: typeof SHOW_SPINNER
 }
 
 export interface IQueryParams {
-  filter: string,
-  sortBy: string,
-  search: string,
-  searchBy: string
+  filter?: string,
+  search?: string,
+  sortBy?: string,
+  searchBy: string,
+  sortOrder: string
 }
 
 interface IGetMovieSuccessAction {
   type: typeof GET_MOVIES_SUCCESS,
   payload: {
     movies: Movie[],
-    queryParams: IQueryParams
   }
 }
 
@@ -92,11 +93,16 @@ interface IClearMovies {
   type: typeof CLEAR_MOVIES,
 }
 
+interface ISetQueryParams {
+  type: typeof SET_QUERY_PARAMS,
+  payload: IQueryParams
+}
+
 export type MovieActionTypes = IShowSpinner | IGetMovieSuccessAction |
   IErrorAction | IDeleteMovieSuccessAction | IEditMovieSuccessAction |
   IClearDeleteMovieId | ISetDeleteMovieId | ISetEditMovie | ISelectMovie |
   IClearEditedMovie | IAddMovieSuccess | IUpdateQueryParams | IGetMovieByIdSuccess |
-  IClearMovies
+  IClearMovies | ISetQueryParams
 
 export interface IMoviesState {
   movies: Movie[],
@@ -105,7 +111,6 @@ export interface IMoviesState {
   isLoading: boolean
   deleteMovieId: number,
   editedMovie: Movie,
-  foundMovies: Movie []
   notificationMessage: ToasterMessage,
   queryParams: IQueryParams,
   selectedMovie: Movie

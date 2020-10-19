@@ -14,9 +14,8 @@ describe('movieReducer', () => {
         notificationMessage: null,
         deleteMovieId: null,
         editedMovie: null,
-        foundMovies: [],
         selectedMovie: null,
-        queryParams: { filter: null, search: null, sortBy: null, searchBy: 'title' },
+        queryParams: { searchBy: 'title', sortOrder: 'asc' },
       },
     );
   });
@@ -37,11 +36,10 @@ describe('movieReducer', () => {
       payload: mockPayload,
     })).toEqual(
       {
-        foundMovies: [],
         isLoaded: true,
         isLoading: false,
         movies: mockPayload.movies,
-        queryParams: mockPayload.queryParams },
+      },
     );
   });
 
@@ -128,5 +126,22 @@ describe('movieReducer', () => {
     }as any, {
       type: Types.CLEAR_SELECTED_MOVIE,
     })).toEqual({ editedMovie: null });
+  });
+
+  it('should handle CLEAR_MOVIES', () => {
+    expect(movieReducer({
+      movies: null,
+    }as any, {
+      type: Types.CLEAR_MOVIES,
+    })).toEqual({ movies: [] });
+  });
+
+  it('should handle SELECT_MOVIE', () => {
+    expect(movieReducer({
+      selectedMovie: null,
+    }as any, {
+      type: Types.SELECT_MOVIE,
+      payload: { id: 1 } as Movie,
+    })).toEqual({ isLoading: false, selectedMovie: { id: 1 } });
   });
 });
