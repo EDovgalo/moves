@@ -1,3 +1,4 @@
+import React from 'react';
 import './LoadSpinner.scss';
 
 type Props = {

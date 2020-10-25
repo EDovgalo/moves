@@ -1,11 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './app/App';
+const app = require('./__app');
 
-import './index.scss';
+const port =  8000;
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-if (process.env.NODE_ENV === 'PROD') {
-  console.log(`APP VERSION ${process.env.APP_VERSION}`);
-}
+app.listen(port, () => {
+  console.info(`Express listening on port ${port}`);
+});

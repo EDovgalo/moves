@@ -1,3 +1,4 @@
+import React from 'react';
 import './Rating.scss';
 
 type Props = {
