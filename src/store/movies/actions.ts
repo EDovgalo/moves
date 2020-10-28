@@ -11,7 +11,8 @@ import {
   MOVIES_ERROR,
   SELECT_MOVIE,
   SET_DELETE_MOVIE_ID,
-  SET_EDIT_MOVIE, SET_QUERY_PARAMS,
+  SET_EDIT_MOVIE,
+  SET_QUERY_PARAMS,
   SHOW_SPINNER,
 } from './types';
 import { Movie } from '../../models/movie.model';
@@ -70,14 +71,14 @@ async function status(res) {
 export const fetchMovies = params => dispatch => {
   const queryParams = new URLSearchParams(params);
   dispatch(showSpinnerAction());
-  fetch(`${URL}?${queryParams}`)
+  return fetch(`${URL}?${queryParams}`)
     .then((resp: Response) => status(resp))
     .then(result => dispatch(getMoviesSuccessAction(result.data)))
     .catch((error: Error) => dispatch(setErrorAction(error)));
 };
 
 export const getMovieById = id => dispatch => {
-  fetch(`${URL}/${id}`)
+  return fetch(`${URL}/${id}`)
     .then((resp: Response) => status(resp))
     .then(result => dispatch(getMovieByIdSuccess(result)))
     .catch((error: Error) => dispatch(setErrorAction(error)));
@@ -85,7 +86,7 @@ export const getMovieById = id => dispatch => {
 
 export const deleteMovie = (id: number) => dispatch => {
   dispatch(showSpinnerAction());
-  fetch(`${URL}/${id}`, {
+  return fetch(`${URL}/${id}`, {
     method: 'delete',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -98,7 +99,7 @@ export const deleteMovie = (id: number) => dispatch => {
 
 export const editMovie = (movie: Movie) => dispatch => {
   dispatch(showSpinnerAction());
-  fetch(`${URL}`, {
+  return fetch(`${URL}`, {
     method: 'put',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -117,7 +118,7 @@ export const addMovie = (movie: Movie) => dispatch => {
   dispatch(showSpinnerAction());
   const newMovie = { ...movie };
   delete newMovie.id;
-  fetch(URL, {
+  return fetch(URL, {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newMovie),

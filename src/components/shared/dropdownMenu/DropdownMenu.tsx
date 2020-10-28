@@ -1,5 +1,6 @@
-import './DropdownMenu.scss';
+import React from 'react';
 import { useToggle } from '../../../hooks';
+import './DropdownMenu.scss';
 
 type Props = {
   caption?: string,

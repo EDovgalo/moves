@@ -1,5 +1,6 @@
+import React from 'react';
 import { useFormik } from 'formik';
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { validationSchema } from './validation.schema';
 import { MovieModalItem } from './MovieModalItem';
