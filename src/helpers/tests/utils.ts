@@ -1,4 +1,4 @@
-import { comparator, join } from './utils';
+import { comparator, join } from '../utils';
 
 describe('actions', () => {
   const mockArray = [{ name: 'C' }, { name: 'A' }, { name: 'D' }];
