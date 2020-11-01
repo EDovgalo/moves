@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isDevMod = process.env.NODE_ENV === 'development';
 
@@ -42,5 +43,8 @@ module.exports = {
 
   plugins: [
     isDevMod ? new webpack.NamedModulesPlugin() : new webpack.HashedModuleIdsPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+    }),
   ],
 };

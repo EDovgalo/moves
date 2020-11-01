@@ -4,7 +4,7 @@ import './DropdownMenu.scss';
 
 type Props = {
   caption?: string,
-  children: any
+  children: JSX.Element []
 };
 
 const defaultCaption = (

@@ -27,12 +27,13 @@ export const Search = ({ title, placeholder, onSearch, searchValue }: Props): JS
   return (
     <form className="search" onSubmit={handlerSearch}>
       <div className="wrapper">
-        <h4 className="search__title">{title}</h4>
+        <h2 className="search__title">{title}</h2>
         <input
           value={searchQuery}
           onChange={handlerSearchInput}
           className="search__input"
           placeholder={placeholder}
+          type="text"
           />
         <button type="submit" onClick={handlerSearch} className="search__btn--search add-btn">
           search

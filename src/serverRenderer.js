@@ -3,13 +3,12 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import App from './app/App';
 import configureStore from './store';
-import {fetchMovies} from "./store/movies/actions";
-
+import { fetchMovies } from './store/movies/actions';
 
 function renderHTML(html, preloadedState) {
   return `
           <!doctype html>
-      <html>
+      <html lang="en">
         <head>
           <meta charset=utf-8>
           <title>React Server Side Rendering</title>
@@ -28,12 +27,11 @@ function renderHTML(html, preloadedState) {
   `;
 }
 
-const params = { movies: {queryParams: { searchBy: 'title', sortOrder: 'asc' }} };
+const params = { movies: { queryParams: { searchBy: 'title', sortOrder: 'asc' } } };
 
 export default function serverRenderer() {
-  return  (req, res) => {
-
-    if(req.originalUrl.includes('search/')) {
+  return (req, res) => {
+    if (req.originalUrl.includes('search/')) {
       const searchTerm = req.originalUrl.split('search/')[1];
       params.movies.queryParams.search = decodeURI(searchTerm);
     }
@@ -41,15 +39,14 @@ export default function serverRenderer() {
     const store = configureStore(params);
 
     Promise.resolve(store.dispatch(fetchMovies(params.movies.queryParams))).then(() => {
-
       const context = {};
 
       const renderRoot = () => (
-          <App
-            context={context}
-            location={req.url}
-            Router={StaticRouter}
-            store={store}
+        <App
+          context={context}
+          location={req.url}
+          Router={StaticRouter}
+          store={store}
           />
       );
 
@@ -64,9 +61,9 @@ export default function serverRenderer() {
       }
 
       const htmlString = renderToString(renderRoot());
-      const finalState  = store.getState();
+      const finalState = store.getState();
 
-      res.send(renderHTML(htmlString, finalState ));
+      res.send(renderHTML(htmlString, finalState));
     }).catch(e => console.error(e));
   };
 }
