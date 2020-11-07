@@ -14,7 +14,7 @@ export const MoviesList = React.memo(({ movies,
   onOpenEditModal, onOpenDeleteModal, onSelectMovie }: Props):JSX.Element => (
     <div className="moves">
       <p className="moves__total">
-        <b>{movies.length}</b>
+        <b>{movies && movies.length}</b>
         <span> moves found</span>
       </p>
       <div className="moves__list">

@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import 'isomorphic-fetch';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
+import loadable from '@loadable/component';
 
 import ToasterNotification from '../components/toaster/ToasterNotification';
 import ModalContainer from '../components/shared/modal/ModalContainer';
 import { AppFooter } from '../components/shared/AppFooter';
-import HomePage from '../components/pages/home/HomePage';
-import MovieDetailsPage from '../components/pages/details/MovieDetailsPage';
-import { SearchPage } from '../components/pages/search/SearchPage';
+// import HomePage from '../components/pages/home/HomePage';
+// import MovieDetailsPage from '../components/pages/details/MovieDetailsPage';
+// import { SearchPage } from '../components/pages/search/SearchPage';
 import { NotFound } from '../components/pages/notFound/NotFound';
 import MovieSection from '../components/shared/movieSection/MovieSection';
+
+const HomePage = loadable(() => import('../components/pages/home/HomePage'));
+const MovieDetailsPage = loadable(() => import('../components/pages/details/MovieDetailsPage'));
+const SearchPage = loadable(() => import('../components/pages/search/SearchPage'));
 
 const App = ({ Router, location, context, store }: any): JSX.Element => {
   const [isPathNotFound, toggleIsPathNotFound] = useState(false);
@@ -21,9 +26,7 @@ const App = ({ Router, location, context, store }: any): JSX.Element => {
           <Route exact path="/">
             <HomePage />
           </Route>
-          <Route path="/film/:id">
-            <MovieDetailsPage />
-          </Route>
+          <Route path="/film/:id" component={MovieDetailsPage} />
           <Route path="/search/:searchTerm">
             <SearchPage />
           </Route>

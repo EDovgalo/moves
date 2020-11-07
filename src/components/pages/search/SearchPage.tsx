@@ -5,21 +5,21 @@ import { HomeTopSection } from '../home/HomeTopSection';
 import { clearMovies, setQueryParams } from '../../../store/movies/actions';
 
 export const SearchPage = (): JSX.Element => {
-
-  const dispatch = useDispatch();
-  const { searchTerm } = useParams();
-
-  useEffect(() => {
-    if (searchTerm) {
-      dispatch(setQueryParams({ search: searchTerm }));
-    } else {
-      dispatch(clearMovies());
-    }
-  }, [dispatch, searchTerm]);
+  // const dispatch = useDispatch();
+  // const { searchTerm } = useParams();
+  //
+  // useEffect(() => {
+  //   if (searchTerm) {
+  //     dispatch(setQueryParams({ search: searchTerm }));
+  //   } else {
+  //     dispatch(clearMovies());
+  //   }
+  // }, [dispatch, searchTerm]);
 
   return (
     <>
-      <HomeTopSection searchTerm={searchTerm} />
+      {/*<HomeTopSection searchTerm={searchTerm} />*/}
+      <h3>search page</h3>
     </>
   );
 };
