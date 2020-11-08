@@ -12,29 +12,26 @@ import { SearchPage } from '../components/pages/search/SearchPage';
 import { NotFound } from '../components/pages/notFound/NotFound';
 import MovieSection from '../components/shared/movieSection/MovieSection';
 
-const App = ({ Router, location, context, store }: any): JSX.Element => {
+const App = ({ store }: any): JSX.Element => {
   const [isPathNotFound, toggleIsPathNotFound] = useState(false);
   return (
     <Provider store={store}>
-      <Router location={location} context={context}>
-        <Switch>
-          <Route exact path="/">
-            <HomePage />
-          </Route>
-          <Route path="/film/:id">
-            <MovieDetailsPage />
-          </Route>
-          <Route path="/search/:searchTerm">
-            <SearchPage />
-          </Route>
-          <Route exact path="*">
-            <NotFound title="Page" didMount={toggleIsPathNotFound} />
-          </Route>
-        </Switch>
-        {isPathNotFound ? null : <MovieSection />}
-
-        <AppFooter />
-      </Router>
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+        <Route path="/film/:id">
+          <MovieDetailsPage />
+        </Route>
+        <Route path="/search/:searchTerm">
+          <SearchPage />
+        </Route>
+        <Route exact path="*">
+          <NotFound title="Page" didMount={toggleIsPathNotFound} />
+        </Route>
+      </Switch>
+      {isPathNotFound ? null : <MovieSection />}
+      <AppFooter />
       <ToasterNotification />
       <ModalContainer />
     </Provider>

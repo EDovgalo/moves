@@ -3,8 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import App from './app/App';
 import configureStore from './store';
-import {fetchMovies} from "./store/movies/actions";
-
+import { fetchMovies } from './store/movies/actions';
 
 function renderHTML(html, preloadedState) {
   return `
@@ -18,9 +17,8 @@ function renderHTML(html, preloadedState) {
         <body>
           <div id="root">${html}</div>
           <script>
-            // WARNING: See the following for security issues around embedding JSON in HTML:
-            // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
-            window.PRELOADED_STATE = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+            window.PRELOADED_STATE = ${JSON.stringify(preloadedState)
+    .replace(/</g, '\\u003c')}
           </script>
           <script src="/js/main.js"></script>
         </body>
@@ -28,45 +26,51 @@ function renderHTML(html, preloadedState) {
   `;
 }
 
-const params = { movies: {queryParams: { searchBy: 'title', sortOrder: 'asc' }} };
+const params = {
+  movies: {
+    queryParams: {
+      searchBy: 'title',
+      sortOrder: 'asc',
+    },
+  },
+};
 
 export default function serverRenderer() {
-  return  (req, res) => {
-
-    if(req.originalUrl.includes('search/')) {
+  return (req, res) => {
+    if (req.originalUrl.includes('search/')) {
       const searchTerm = req.originalUrl.split('search/')[1];
       params.movies.queryParams.search = decodeURI(searchTerm);
     }
 
     const store = configureStore(params);
 
-    Promise.resolve(store.dispatch(fetchMovies(params.movies.queryParams))).then(() => {
+    Promise.resolve(store.dispatch(fetchMovies(params.movies.queryParams)))
+      .then(() => {
+        const context = {};
 
-      const context = {};
+        const renderRoot = () => (
+          <StaticRouter location={req.url} context={context}>
+            <App
+              store={store}
+              />
+          </StaticRouter>
+        );
 
-      const renderRoot = () => (
-          <App
-            context={context}
-            location={req.url}
-            Router={StaticRouter}
-            store={store}
-          />
-      );
+        renderToString(renderRoot());
 
-      renderToString(renderRoot());
+        if (context.url) {
+          res.writeHead(302, {
+            Location: context.url,
+          });
+          res.end();
+          return;
+        }
 
-      if (context.url) {
-        res.writeHead(302, {
-          Location: context.url,
-        });
-        res.end();
-        return;
-      }
+        const htmlString = renderToString(renderRoot());
+        const finalState = store.getState();
 
-      const htmlString = renderToString(renderRoot());
-      const finalState  = store.getState();
-
-      res.send(renderHTML(htmlString, finalState ));
-    }).catch(e => console.error(e));
+        res.send(renderHTML(htmlString, finalState));
+      })
+      .catch(e => console.error(e));
   };
 }
