@@ -7,6 +7,8 @@ import { LoadSpinner } from '../loadSpiner/LoadSpinner';
 import { Movie } from '../../../models/movie.model';
 import { NotFound } from '../../pages/notFound/NotFound';
 import * as MoviesActions from '../../../store/movies/actions';
+import { usePrevious } from '../../../hooks';
+import { deepEquals } from '../../../helpers/utils';
 
 export type SortList = {
   caption: string,
@@ -67,9 +69,13 @@ const MovieSection = ({ moviesList, isLoading, queryParams }: Props): JSX.Elemen
     history.push(`/film/${movie.id}`);
   }, [history, dispatch]);
 
+  const prevParams = usePrevious(queryParams);
+
   useEffect(() => {
-    dispatch(MoviesActions.fetchMovies(queryParams));
-  }, [dispatch, queryParams]);
+    if (!deepEquals(queryParams, prevParams)) {
+      dispatch(MoviesActions.fetchMovies(queryParams));
+    }
+  }, [dispatch, queryParams, prevParams]);
 
   return (
     <>

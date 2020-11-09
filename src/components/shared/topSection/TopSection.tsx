@@ -1,3 +1,4 @@
+import React from 'react';
 import './TopSection.scss';
 
 type Props = {

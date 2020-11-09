@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect,useRef, useState } from 'react';
 
 export const useToggle = (initValue = false): [boolean, () => void] => {
   const [flag, setFlag] = useState(initValue);
@@ -22,4 +22,13 @@ export const useTimer = (time = 0, callback: any): boolean[] => {
   }, []);
 
   return [timerDone];
+};
+
+
+export const usePrevious = value => {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
 };

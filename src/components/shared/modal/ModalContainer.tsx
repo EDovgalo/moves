@@ -1,5 +1,5 @@
+import React, { useCallback } from 'react';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
-import { useCallback } from 'react';
 import {
   addMovie,
   clearDeleteMovieId,

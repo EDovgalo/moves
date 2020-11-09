@@ -1,14 +1,25 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchMovies } from '../../../store/movies/actions';
+import React, { useEffect } from 'react';
+
+import { useDispatch, connect, ConnectedProps } from 'react-redux';
+import { setQueryParams } from '../../../store/movies/actions';
 import { HomeTopSection } from './HomeTopSection';
 
-export const HomePage = (): JSX.Element => {
+const mapStateToProps = state => ({
+  queryParams: state.movies.queryParams,
+});
+
+const connector = connect(mapStateToProps);
+
+type Props = ConnectedProps<typeof connector>
+
+export const HomePage = ({ queryParams }: Props): JSX.Element => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMovies({}));
-  }, [dispatch]);
+    if (queryParams.search) {
+      dispatch(setQueryParams({ search: '' }));
+    }
+  }, [dispatch, queryParams]);
 
   return (
     <>
@@ -16,3 +27,5 @@ export const HomePage = (): JSX.Element => {
     </>
   );
 };
+
+export default connector(HomePage);

@@ -1,6 +1,6 @@
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import { useCallback } from 'react';
 import { TopSection } from '../../shared/topSection/TopSection';
 import { AppLabel } from '../../shared/AppLabel';
 import { Search } from '../../shared/movieSection/components/Search';
@@ -23,7 +23,7 @@ export const HomeTopSection = ({ searchTerm = '' }: Props): JSX.Element => {
   }, [dispatch]);
 
   const handlerSearch = useCallback((search: string) => {
-    history.push(`../search?q=${search}`);
+    history.push(`../search/${search}`);
   }, [history]);
 
   return (

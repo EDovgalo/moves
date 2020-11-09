@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect, ConnectedProps, useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { MovieDetails } from './components/MovieDetails';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Movie } from '../../../../models/movie.model';
 import { Rating } from './Rating';
 import { join } from '../../../../helpers/utils';

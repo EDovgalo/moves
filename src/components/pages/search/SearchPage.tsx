@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router';
+import { useParams } from 'react-router';
 import { HomeTopSection } from '../home/HomeTopSection';
 import { clearMovies, setQueryParams } from '../../../store/movies/actions';
 
 export const SearchPage = (): JSX.Element => {
-  const location = useLocation();
+
   const dispatch = useDispatch();
-  const searchTerm = new URLSearchParams(location.search).get('q');
+  const { searchTerm } = useParams();
 
   useEffect(() => {
     if (searchTerm) {

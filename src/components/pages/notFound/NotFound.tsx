@@ -1,5 +1,5 @@
+import React, { useEffect } from 'react';
 import './NotFound.scss';
-import { useEffect } from 'react';
 
 type Props = {
   title: string,

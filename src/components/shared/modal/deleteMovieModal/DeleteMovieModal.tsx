@@ -1,3 +1,4 @@
+import React from 'react';
 import './DeleteMovieModal.scss';
 
 type Props = {
