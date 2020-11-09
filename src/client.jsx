@@ -1,7 +1,6 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { loadableReady } from '@loadable/component';
 
 import App from './app/App';
 import './app/AppErrorBoundary.scss';
@@ -10,12 +9,11 @@ import './index.scss';
 
 const store = configureStore(window.PRELOADED_STATE);
 const app = (
-  <App
-    Router={BrowserRouter}
-    store={store}
-    />
+  <BrowserRouter>
+    <App
+      store={store}
+      />
+  </BrowserRouter>
 );
 
-loadableReady(() => {
-  hydrate(app, document.getElementById('root'));
-});
+hydrate(app, document.getElementById('root'));

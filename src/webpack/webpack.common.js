@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const isDevMod = process.env.NODE_ENV === 'development';
 
@@ -9,7 +8,7 @@ module.exports = {
   mode: process.env.NODE_ENV,
 
   output: {
-    filename: '[name].bundle.js',
+    filename: 'js/[name].bundle.js',
     path: path.resolve('./public'),
     globalObject: 'this',
   },
@@ -45,9 +44,8 @@ module.exports = {
 
   plugins: [
     isDevMod ? new webpack.NamedModulesPlugin() : new webpack.HashedModuleIdsPlugin(),
-    new LoadablePlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: 'css/[name].css',
     }),
   ],
 };
