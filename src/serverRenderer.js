@@ -7,29 +7,6 @@ import App from './app/App';
 import configureStore from './store';
 import { fetchMovies } from './store/movies/actions';
 
-// function renderHTML(linkTags, html, preloadedState, styleTags) {
-//   return `
-//       <html lang="en">
-//         <head>
-//           <meta charset=utf-8>
-//           <title>React Server Side Rendering</title>
-//           ${linkTags}
-//           ${styleTags}
-//         </head>
-//         <body>
-//           <div id="root">${html}</div>
-//           <script>
-//             // WARNING: See the following for security issues around embedding JSON in HTML:
-//             // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
-//             window.PRELOADED_STATE = ${JSON.stringify(preloadedState)
-//     .replace(/</g, '\\u003c')}
-//           </script>
-//           <script src="/main.js"></script>
-//         </body>
-//       </html>
-//   `;
-// }
-
 const params = {
   movies: {
     queryParams: {
@@ -38,7 +15,6 @@ const params = {
     },
   },
 };
-
 
 export default function serverRenderer() {
   return (req, res) => {
