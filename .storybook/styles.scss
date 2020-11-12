@@ -1,0 +1,16 @@
+.storybook-dropdown-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .storybook-dropdown {
+    position: relative;
+    width: fit-content;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+}

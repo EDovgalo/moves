@@ -8,7 +8,6 @@ import configureStore from './store/index';
 import './index.scss';
 
 const store = configureStore(window.PRELOADED_STATE);
-
 const app = (
   <BrowserRouter>
     <App

@@ -5,7 +5,6 @@ import { HomeTopSection } from '../home/HomeTopSection';
 import { clearMovies, setQueryParams } from '../../../store/movies/actions';
 
 export const SearchPage = (): JSX.Element => {
-
   const dispatch = useDispatch();
   const { searchTerm } = useParams();
 
